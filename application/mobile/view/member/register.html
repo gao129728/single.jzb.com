@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+{include file="public/head" /}
+<body>
+<!--头部-->
+<script src="__JS__/jquery.form.js"></script>
+<!--主要内容-->
+<div class="loginBox registerBox">
+    <h1 class="logo"><a href="{:url('mobile/index/index')}" title="{$config.wap_site_title}"><img src="__UPLOAD_PATH__/{$config.wap_site_logo}" alt="{$config.web_site_title}"/></a></h1>
+    <div class="login">
+        <form action="{:url('mobile/member/register')}" method="post" id="register">
+            <ul>
+                <li>
+                    <input type="text" name="account" class="text" placeholder="请输入会员账号"/>
+                </li>
+                <li>
+                    <input type="text" name="mobile" class="text" placeholder="请输入您的手机号码"/>
+                </li>
+                <li>
+                    <input type="password" class="text" name="password" placeholder="请设置登录密码">
+                </li>
+                <li>
+                    <input type="password" class="text" name="repassword" placeholder="请确认登录密码">
+                </li>
+                <li class="yzm clearfix">
+                    <input class="text" type="text" name="code" placeholder="请输入验证码" autocomplete="off" maxlength="4">
+                    <img src="{:url('form/code_img')}" class="codeImg" onclick="this.src='{:url(\'form/code_img\')}?time='+Math.random();" alt="看不清,请单击"/>
+                </li>
+            </ul>
+            <input type="submit" class="u-subBtn" value="注册"/>
+        </form>
+        <p class="toLogin clearfix"><span>已有账号？<a href="{:url('mobile/member/login')}">直接登录 </a></span></p>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#register')[0].reset();
+    $(function(){
+        $('#register').ajaxForm({
+            beforeSubmit: checkForm,
+            success: complete,
+            dataType: 'json'
+        });
+        function checkForm() {
+            $('.u-subBtn').attr("disabled", "disabled");
+        }
+        function complete(data){
+            if(data.code == 1){
+                layer.open({content:data.msg, time:2});
+                $('#register')[0].reset();
+                setTimeout(function(){
+                    window.location.href="{:url('mobile/member/login')}";
+                },2000);
+            }else{
+                layer.open({content:data.msg, time:2});
+                $('.u-subBtn').removeAttr("disabled");
+                return false;
+            }
+        }
+    });
+</script>
+</body>
+</html>

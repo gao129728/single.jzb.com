@@ -1,0 +1,144 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<link href="__JS__/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>首页管理</h5>
+                </div>
+                <div class="ibox-content clearfix" style="padding-top:20px;">
+                    {include file="structure/global" /}
+                    <div class="col-sm-8">
+                        <form class="form-horizontal" name="add_structure" id="add_structure" method="post" action="{:url('index')}">
+                            <div class="form-group">
+                                <label class="col-sm-2" style="font-weight: 100; padding-left:20px; color:#ff6600;; font-size: 15px;">新增模块</label>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">模块名称：</label>
+                                <div class="input-group col-sm-4">
+                                    <input id="name" type="text" class="form-control" name="name" >
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">显示宽度：</label>
+                                <div class="input-group col-sm-4">
+                                    <div class="radio i-checks">
+                                        <input type="radio" name='show_style' value="0" checked/>主体居中&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="radio" name='show_style' value="1" />全屏通栏
+                                    </div>
+                                    <span class="help-question"><a data-toggle="tooltip" data-placement="auto right" title="主体居中宽度为1200px"><i class="fa fa-question-circle-o"></i></a></span>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">背景颜色：</label>
+                                <div class="input-group col-sm-4">
+                                    <div class="iColor-Picker">
+                                        <input id="bgcolor" type="text" class="form-control iColorPicker input_wd1" name="bgcolor" maxlength="7" value="#FFFFFF">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">背景图片：</label>
+                                <div class="input-group col-sm-4">
+                                    <div class="uploadImg-box">
+                                        <input type="file" name="photo" id="photo" class="imgFile" onchange="previewImage(this)"/>
+                                        <div class="up-img"><i class="fa fa-cloud-upload"></i><p>点击上传图片</p></div>
+                                        <div class="uploadCover">
+                                            <div class="ulinfo clearfix">
+                                                <span class="up-btn"><i class="fa fa-cloud-upload"></i></span>
+                                                <span class="up-del"><i class="fa fa-close"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="help-question"><a data-toggle="tooltip" data-placement="auto right" title="有背景图时，则背景颜色选项无效"><i class="fa fa-question-circle-o"></i></a></span>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">上下边距：</label>
+                                <div class="input-group col-sm-10">
+                                    <span class="control-label" style="float:left;">上边距</span>
+                                    <div class="col-sm-1 input_wd3">
+                                        <input type="text" class="form-control" id="topSpace" name="topSpace" value="40">
+                                        <span class="tp-unit">px</span>
+                                    </div>
+                                    <span class="control-label" style="float:left; padding-left:60px;">下边距</span>
+                                    <div class="col-sm-1 input_wd3">
+                                        <input type="text" class="form-control" id="bottomSpace" name="bottomSpace" value="40">
+                                        <span class="tp-unit">px</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">状&nbsp;态：</label>
+                                <div class="col-sm-6 input-group">
+                                    <input type="checkbox" name="status" value="1" class="lcs_check" lcs-text="开启|关闭" autocomplete="off" checked/>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2 button-group">
+                                    <button class="btn btn-warning" type="submit" style="padding:6px 30px;"><i class="fa fa-save"></i> 保存</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script src="/static/admin/js/iColorPicker.js" type="text/javascript"></script>
+{include file="structure/global_js" /}
+<script type="text/javascript">
+    $(function(){
+        $('#add_structure').ajaxForm({
+            beforeSubmit: checkForm, 
+            success: complete, 
+            dataType: 'json'
+        });
+        
+        function checkForm() {
+            if ('' == $.trim($('#name').val())) {
+                layer.msg('请输入模块名称', {icon: 2, time: 1500, shade: 0.1}, function (index) {
+                    layer.close(index);
+                });
+                return false;
+            }
+            if (!/^\#[0-9a-fA-F]{6}$/.exec($('#bgcolor').val())) {
+                layer.msg('背景颜色填写不正确', {icon: 5, time: 1500, shade: 0.1}, function (index) {
+                    layer.close(index);
+                });
+                return false;
+            }
+            if (!isPositiveNum($('#topSpace').val()) || !isPositiveNum($('#bottomSpace').val())) {
+                layer.msg('请输入正确的上下边距', {icon: 5, time: 1500, shade: 0.1}, function (index) {
+                    layer.close(index);
+                });
+                return false;
+            }
+        }
+
+        function complete(data){
+            if(data.code==1){
+                layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+                    window.location.href="{:url('structure/index')}";
+                });
+            }else{
+                layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1});
+                return false;   
+            }
+        }
+     
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+{include file="public/header"/}
+
+<body class="gray-bg">
+<style type="text/css">
+    .ibox{margin-bottom: 20px;}
+    .panel-body{padding-bottom:5px;}
+    .panel-body p{margin-bottom:10px; font-size: 13px;}
+    .panel-body a{color: #337ab7;}
+</style>
+<div class="wrapper wrapper-content">
+    <!-- 上方tab -->
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-web-number clearfix">
+                    <a href="{:url('article/index_cate')}" class="clearfix">
+                        <div class="pull-left">
+                            <h1 class="no-margins">{$all_cate_cnt}</h1>
+                            <small>栏目分类</small>
+                        </div>
+                        <div class="pull-right"><img src="__IMG__/img1.png"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-web-number">
+                    <a href="{:url('article/index')}" class="clearfix">
+                        <div class="pull-left">
+                            <h1 class="no-margins">{$all_article_cnt}</h1>
+                            <small>所有内容</small>
+                        </div>
+                        <div class="pull-right"><img src="__IMG__/img2.png"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox-web-number">
+                <a href="{:url('apply/message')}" class="clearfix">
+                    <div class="pull-left">
+                        <h1 class="no-margins">{$all_message_cnt}</h1>
+                        <small>客户留言</small>
+                    </div>
+                    <div class="pull-right"><img src="__IMG__/img3.png"></div>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox-web-number">
+                <a href="{:url('counter/index')}" class="clearfix">
+                    <div class="pull-left">
+                        <h1 class="no-margins">{$all_counter_cnt}</h1>
+                        <small>网站访问量</small>
+                    </div>
+                    <div class="pull-right"><img src="__IMG__/img4.png"></div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox-counter ibox">
+                <div class="counter-tit">
+                    <p>最近12天访问统计</p>
+                    <h4>访问统计</h4>
+                </div>
+                <div class="counter-chart">
+                    <canvas id="lineChart" height="50"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 中间折线 -->
+    <div class="index_news ibox-counter">
+    <div class="row">
+        <div class="col-sm-6">
+        	<div class="ibox float-e-margins line-green">
+                <div class="ibox-title">
+                    <i class="fa fa-cogs"></i> 系统信息
+                </div>
+                <div class="ibox-content no-padding">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <i class="fa fa-sitemap"></i> 系统类型：{$info.web_system}
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fa fa-windows"></i> 服务环境：{$info.web_server}
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fa fa-warning"></i> 上传附件限制：{$info.onload}
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fa fa-credit-card"></i> PHP 版本：{$info.phpversion}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+        	<div class="ibox float-e-margins line-blue">
+                <div class="ibox-title">
+                    <i class="fa fa-cogs"></i> 站点信息
+                </div>
+                <div class="ibox-content no-padding">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <i class="fa fa-desktop"></i> 网站名称：{$website.web_name}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fa fa-support"></i> 网站域名：<a href="{$website.web_domain}" target="_blank">{$website.web_domain}</a></a>
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fa fa-user-circle"></i> 登录用户：{$username}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fa fa-clock-o"></i> 登录时间：{$login_time|date="Y-m-d H:i:s",###}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script src="__JS__/plugins/chartJs/Chart.min.js"></script>
+<script>
+    $(function(){
+        var chart_date={$chart_date};
+        var  labels = [
+            {volist name="chart_date" id="vo"}
+            {$i == 1? '':','}"{$vo.date}"
+            {/volist}
+        ];
+        var  data = [
+            {volist name="chart_date" id="vo"}
+            {$i == 1? '':','}"{$vo.val}"
+            {/volist}
+        ];
+        var lineData = {
+            labels: labels,
+            datasets: [
+                {
+                    label: "Example dataset",
+                    fillColor: "rgba(26,179,148,0.5)",
+                    strokeColor: "rgba(26,179,148,0.7)",
+                    pointColor: "rgba(26,179,148,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(26,179,148,1)",
+                    data: data
+                }
+            ]
+        };
+
+        var lineOptions = {
+            scaleShowGridLines: true,
+            scaleGridLineColor: "rgba(0,0,0,.05)",
+            scaleGridLineWidth: 1,
+            bezierCurve: true,
+            bezierCurveTension: 0.4,
+            pointDot: true,
+            pointDotRadius: 4,
+            pointDotStrokeWidth: 1,
+            pointHitDetectionRadius: 20,
+            datasetStroke: true,
+            datasetStrokeWidth: 2,
+            datasetFill: true,
+            responsive: true
+        };
+
+        var ctx = document.getElementById("lineChart").getContext("2d");
+        var myNewChart = new Chart(ctx).Line(lineData, lineOptions);
+    });
+</script>
+
+</body>
+</html>

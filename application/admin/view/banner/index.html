@@ -1,0 +1,239 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<link rel="stylesheet" type="text/css" href="/static/admin/webUploader/css/webuploader.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/webUploader/css/style.css" />
+<style type="text/css">
+    .multi-img .upload-list .control-label{width:50px;}
+    .multi-img .upload-list .img{width:200px;}
+</style>
+<div class="wrapper wrapper-content animated fadeInRight" style="overflow-y:auto;">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Banner管理</h5>
+                </div>
+                <div class="ibox-content">       
+                    <div class="panel blank-panel">
+                        <div class="panel-options">
+                            <ul class="nav nav-tabs">
+                                {volist name="banner_list" id="vo"}
+                                <li {if $banner.id eq $vo.id}class="active"{/if}><a href="{:url('banner/index', ['id'=>$vo.id])}">{$vo.name}</a></li>
+                                {/volist}
+                            </ul>
+                        </div>
+                        <form action="{:url('save_banner')}" method="post" class="form-horizontal" id="banner">
+                            <input type="hidden" name="id" value="{$banner.id}">
+                            <div class="tab-content">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">banner尺寸：</label>
+                                    <div class="input-group col-sm-10">
+                                        <span class="control-label" style="float:left;">宽度</span>
+                                        <div class="col-sm-1 input_wd3">
+                                            <input type="text" class="form-control" id="width" name="width" value="{$banner.width}">
+                                            <span class="tp-unit">px</span>
+                                        </div>
+                                        <span class="control-label" style="float:left; padding-left:60px;">高度</span>
+                                        <div class="col-sm-1 input_wd3">
+                                            <input type="text" class="form-control" id="height" name="height" value="{$banner.height}">
+                                            <span class="tp-unit">px</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">切换状态：</label>
+                                    <div class="input-group col-sm-10">
+                                        <span class="control-label" style="float:left;">是否切换</span>
+                                        <div class="col-sm-1 input_wd3">
+                                            <input type="checkbox" name="switch" value="1" class="lcs_check" lcs-text="开启|关闭" autocomplete="off" {if $banner.switch eq 1}checked{/if}/>
+                                        </div>
+                                        <span class="control-label" style="float:left; padding-left:60px;">自动切换</span>
+                                        <div class="col-sm-1 input_wd3">
+                                            <input type="checkbox" name="auto" value="1" class="lcs_check" lcs-text="是|否" autocomplete="off" {if $banner.auto eq 1}checked{/if}/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">切换效果：</label>
+                                    <div class="input-group col-sm-6">
+                                        <div class="radio i-checks">
+                                            <input type="radio" name='switch_style' value="fold" {if $banner.switch_style eq 'fold'}checked{/if}/>柔和渐变&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input type="radio" name='switch_style' value="fade" {if $banner.switch_style eq 'fade'}checked{/if}/>淡入淡出&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input type="radio" name='switch_style' value="leftLoop" {if $banner.switch_style eq 'leftLoop'}checked{/if}/>向左滑动&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input type="radio" name='switch_style' value="topLoop" {if $banner.switch_style eq 'topLoop'}checked{/if}/>向上滑动
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">效果参数：</label>
+                                    <div class="input-group col-sm-10">
+                                        <span class="control-label" style="float:left;">效果时间</span>
+                                        <div class="col-sm-1 input_wd3">
+                                            <input type="text" class="form-control" id="effect_time" name="effect_time" value="{$banner.effect_time}">
+                                            <span class="tp-unit m-l-lg" style="right:-26px;">毫秒</span>
+                                        </div>
+                                        <span class="control-label" style="float:left; padding-left:60px;">间隔时间</span>
+                                        
+                                        <div class="col-sm-1 input_wd3">
+                                            <input type="text" class="form-control" id="interval_time" name="interval_time" value="{$banner.interval_time}">
+                                            <span class="tp-unit m-l-lg" style="right:-26px;">毫秒</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">切换按钮状态：</label>
+                                    <div class="input-group col-sm-10">
+                                        <span class="control-label" style="float:left;">左右按钮</span>
+                                        <div class="col-sm-1 input_wd3">
+                                            <input type="checkbox" name="aside_btn" value="1" class="lcs_check" lcs-text="显示|关闭" autocomplete="off" {if $banner.aside_btn eq 1}checked{/if}/>
+                                        </div>
+                                        <span class="control-label" style="float:left; padding-left:60px;">圆点按钮</span>
+                                        <div class="col-sm-1 input_wd3">
+                                            <input type="checkbox" name="circle_btn" value="1" class="lcs_check" lcs-text="显示|关闭" autocomplete="off" {if $banner.circle_btn eq 1}checked{/if}/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group" style="padding-top:10px;">
+                                    <label class="col-sm-2 control-label">图片列表：</label>
+                                    <div class="col-sm-7 input-group">
+                                        <ul class="multi-img" id="multi-img-sortable">
+                                            {volist name="imageList" id="vo" key='k'}
+                                            <li>
+                                                <input type="hidden" name="img_id[{$k}]" value="{$vo.id}" class="img_id">
+                                                <input type="hidden" name="img_src[{$k}]" value="{$vo.photo}" class="img_src">
+                                                <div class="handle"><i class="fa fa-arrows"></i></div>
+                                                <div class="upload-list">
+                                                    <div class="pull-left"><img src="__UPLOAD_PATH__/{$vo.photo}" class="img" alt="{$vo.title}"/></div>
+                                                    <div class="pull-left col-sm-8">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">标题</label>
+                                                            <div class="col-sm-6">
+                                                                <input type="text" name="img_name[{$k}]" value="{$vo.title}" placeholder="请输入标题" class="form-control">
+                                                            </div>
+                                                            <label class="col-sm-2 control-label">状态</label>
+                                                            <div class="col-sm-3">
+                                                                <input type="checkbox" name="state[{$k}]" value="1" class="lcs_check" lcs-text="显示|隐藏" autocomplete="off" {if $vo.state eq 1}checked{/if}/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">链接</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" name="img_url[{$k}]" value="{$vo.url}" placeholder="请输入链接地址" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <label class="status-label"><i class="fa fa-check"></i></label>
+                                                <label class="status-move"><i class="fa fa-remove"></i></label>
+                                            </li>
+                                            {/volist}
+                                        </ul>
+                                        <div id="wrapper">
+                                            <div id="container">
+                                                <div id="uploader">
+                                                    <div class="queueList">
+                                                        <div id="dndArea" class="placeholder">
+                                                            <div id="filePicker"></div>
+                                                            <p class="tips">或将照片拖到这里，单次最多可选100张，且图片大小不超过1M</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="statusBar" style="display:none;">
+                                                        <div class="progress">
+                                                            <span class="text">0%</span>
+                                                            <span class="percentage"></span>
+                                                        </div><div class="info"></div>
+                                                        <div class="btns">
+                                                            <div id="filePicker2"></div><div class="uploadBtn">开始上传</div><div class="delAll">清空</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2 button-group">
+                                    <button class="btn btn-warning" type="submit" style="padding:6px 20px;"><i class="fa fa-save"></i> 保存</button>&nbsp;&nbsp;&nbsp;
+                                </div>
+                            </div>
+                        </form>
+                    </div>         
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script type="text/javascript" src="/static/admin/webUploader/webuploader.min.js"></script>
+<script type="text/javascript" src="/static/admin/webUploader/upload_banner.js"></script>
+<script type="text/javascript" src="/static/admin/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    $("#multi-img-sortable").sortable();
+    $("#multi-img-sortable").disableSelection();
+    $('#multi-img-sortable').on('click','.status-move', function(){
+        var _this = $(this);
+        layer.confirm('确认删除此图片吗?', {icon: 3, title:'提示'}, function(index){
+            var img_id = _this.siblings('.img_id').val();
+            var img_src = _this.siblings('.img_src').val();
+            $.getJSON("{:url('banner/del_banner_img')}", {'img_id':img_id,'img_src':img_src}, function(res){
+                if(res.code == 1){
+                    _this.parent().remove();
+                }else{
+                    layer.msg(res.msg,{icon:0,time:1500,shade: 0.1});
+                }
+            });
+            layer.close(index);
+        });
+    });
+    $('#filePicker').on('click','.webuploader-pick', function(){
+        $(this).next().find('label').click();
+    });
+    $(function(){
+        $('#banner').ajaxForm({
+            beforeSubmit: checkForm, // 此方法主要是提交前执行的方法，根据需要设置
+            success: complete, // 这是提交后的方法
+            dataType: 'json'
+        });
+
+        function checkForm(){
+            if(!isPositiveNum($('#width').val()) || !isPositiveNum($('#height').val())){
+                layer.msg('请输入合法的banner尺寸', {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                result = false;
+                return false;
+            }
+
+            if(!isPositiveNum($('#effect_time').val()) || !isPositiveNum($('#interval_time').val())){
+                layer.msg('请输入合法的效果参数', {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                result = false;
+                return false;
+            }
+        }
+
+        function complete(data){
+            if(data.code == 1){
+                layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                    location.reload();
+                });
+            }else{
+                layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+        }
+    });
+</script>
+</body>
+</html>

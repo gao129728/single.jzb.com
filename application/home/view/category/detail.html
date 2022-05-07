@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+{include file="public/head" /}
+<body>
+<!--头部-->
+{include file="public/header" /}
+<!--主要内容-->
+<div class="MainCon inside-container">
+	<div class="box-wrap">
+		<div class="breadcrumbs">
+			您现在的位置：<a href="{:url('home/index/index')}">首页</a>
+			{volist name="cate_arr" id="vo"}
+			> <a href="{$vo.url}">{$vo.name}</a>
+			{/volist}
+		</div>
+		<div class="inside-box clearfix {if $showSidebar heq false}full-box-wrap{elseif $showSidebar and $inside.web_menu_style eq 2/}rig-box-wrap{/if}">
+			{include file="public/left_menu" /}
+			<div class="rigCon fr">
+				{switch name="cate.infoStyle"}
+					{case value="0"}{include file="detail-module/module_0" /}{/case}
+					{case value="1"}{include file="detail-module/module_1" /}{/case}
+					{default /}模板文件不存在
+				{/switch}
+			</div>
+		</div>
+	</div>
+	{if $cate.isForm}
+	{include file="public/message_panel" /}
+	{/if}
+</div>
+
+<!--底部-->
+{include file="public/footer" /}
+{include file="public/onlineqq" /}
+</body>
+</html>

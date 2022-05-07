@@ -1,0 +1,144 @@
+{if $inside.web_menu_style eq 3 and $showSubMenu}
+<div class="main-menu">
+    <div class="first-menu">
+        <ul class="clearfix">
+            {volist name="second_menu" id="second"}
+            <li>
+                <a href="{$second.url}" title="{$second.name}" {if $second.isCurrent eq 1}class="active"{/if} {if $second.isTarget eq 1} target="_blank"{/if}>{$second.name}</a>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+    {if $third_menu neq ''}
+    <div class="second-menu">
+        <ul class="clearfix">
+            {volist name="$third_menu" id="third"}
+            <li>
+                <a href="{$third.url}" title="{$third.name}" {if $third.isCurrent eq 1}class="active"{/if} {if $third.isTarget eq 1} target="_blank"{/if}>{$third.name}</a>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+    {/if}
+    {if $four_menu neq ''}
+    <div class="third-menu">
+        <ul class="clearfix">
+            {volist name="$four_menu" id="four"}
+            <li>
+                <a href="{$four.url}" title="{$four.name}" {if $four.isCurrent eq 1}class="active"{/if} {if $four.isTarget eq 1} target="_blank"{/if}>{$four.name}</a>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+    {/if}
+</div>
+{/if}
+
+{if $showSidebar}
+<div class="leftCon fl">
+    {if $showSubMenu and $inside.web_menu_style neq 3}
+    <div class="sub-menu">
+        <h2>{$cate_arr[0]['name']}</h2>
+        <ul class="menu-list">
+            {volist name="sub_menu" id="sub"}
+            <li>
+                <a href="{$sub.url}" title="{$sub.name}" {if $sub.isCurrent eq 1}class="active"{/if} {if $sub.isTarget eq 1} target="_blank"{/if}>{$sub.name} <span>＋</span></a>
+                {if $sub.child}
+                <ul class="lvl-third" style="display:none;">
+                    {volist name="sub['child']" id="third"}
+                    <li>
+                        <a href="{$third.url}" title="{$third.name}" {if $third.isCurrent eq 1}class="active"{/if} {if $third.isTarget eq 1} target="_blank"{/if}><i class="iconfont {if $third.isCurrent eq 1} icon-xiajiantou {else} icon-sanjiaoright {/if}"></i>{$third.name}</a>
+                        {if $third.child}
+                        <ul class="lvl">
+                            {volist name="third['child']" id="four"}
+                            <li>
+                                <a href="{$four.url}" title="{$four.name}" {if $four.isCurrent eq 1}class="active"{/if} {if $four.isTarget eq 1} target="_blank"{/if}>{$four.name}</a>
+                            </li>
+                            {/volist}
+                        </ul>
+                        {/if}
+                    </li>
+                    {/volist}
+                </ul>
+                {/if}
+            </li>
+            {/volist}
+        </ul>
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            $('.sub-menu .lvl-third').slideDown(1000);
+        });
+        var slvl=$(".sub-menu .lvl-third");
+        var lvli=$(".sub-menu .lvl-third .lvl li").size();
+        if(lvli<1){
+            slvl.find(".iconfont").addClass("icon-sanjiaoright").removeClass('icon-xiajiantou');
+        }
+    </script>
+    {/if}
+    {if $sidebar_style}
+    <div class="sidebar">
+        {volist name="module_list" id="module" key="ml"}
+        <div class="sidebar-item">
+            <div class="sTit">{$module.title} {if $module.isMore and $module.module_style neq 4}<a href="{$module.cate_url}">更多</a>{/if}</div>
+            <div class="con">
+                {if $module.module_style eq 1}
+                <ul class="pic-list">
+                    {volist name="module['art_list']" id="listPic"}
+                    <li>
+                        <p class="pic"><a href="{$listPic.url}" target="_blank" title="{$listPic.title}"><img src="__UPLOAD_PATH__/{$listPic.photo}" width="{$module.moduleParam[1]}" height="{$module.moduleParam[2]}" {if $module.moduleParam[3]}class="imgBd"{/if} alt="{$listPic.title}"></a></p>
+                        {if $module.moduleParam[4]}
+                        <p class="tit"><a href="{$listPic.url}" target="_blank" title="{$listPic.title}">{$listPic.title}</a></p>
+                        {/if}
+                    </li>
+                    {/volist}
+                </ul>
+                {elseif $module.module_style eq 2 /}
+                <ul class="news-list">
+                    {volist name="module['art_list']" id="newsList"}
+                    <li class="clearfix">
+                        {if $module.moduleParam[4]}
+                        <p class="pic"><a href="{$newsList.url}" target="_blank" title="{$newsList.title}"><img src="__UPLOAD_PATH__/{$newsList.photo}" {if $module.moduleParam[5]}class="imgBd"{/if} alt="{$newsList.title}"></a></p>
+                        {/if}
+                        <div class="txt-box">
+                            <h4><em></em><a href="{$newsList.url}" title="{$newsList.title}" target="_blank">{$newsList.title|leftstr=$module.moduleParam[1]}</a></h4>
+                            {if $module.moduleParam[2]}
+                            <div class="i">{$newsList.content|leftstr_html=$module.moduleParam[3]}</div>
+                            {/if}
+                        </div>
+                    </li>
+                    {/volist}
+                </ul>
+                {elseif $module.module_style eq 3 /}
+                <div class="pic-focus" id="sidebar-module-{$ml}">
+                    {if $module.moduleParam[6]}
+                    <a class="prev" href="javascript:;" style="top:{$module.moduleParam[2]/2-22}px"></a>
+                    <a class="next" href="javascript:;" style="top:{$module.moduleParam[2]/2-22}px"></a>
+                    {/if}
+                    <div class="bd">
+                        <ul>
+                            {volist name="module['art_list']" id="picFocus"}
+                            <li>
+                                <p class="pic"><a href="{$picFocus.url}" target="_blank" title="{$picFocus.title}"><img src="__UPLOAD_PATH__/{$picFocus.photo}" width="{$module.moduleParam[1]}" height="{$module.moduleParam[2]}" alt="{$picFocus.title}"></a></p>
+                                {if $module.moduleParam[3]}
+                                <p class="tit"><a href="{$picFocus.url}" target="_blank" title="{$picFocus.title}">{$picFocus.title}</a></p>
+                                {/if}
+                            </li>
+                            {/volist}
+                        </ul>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $("#sidebar-module-{$ml}").slide({mainCell:".bd ul", autoPlay:{$module.moduleParam[4]? 'true':'false'}, autoPage:true, effect:"{$module.moduleParam[5]}"});
+                </script>
+                {else /}
+                <div class="content-panel">{$module.module_content}</div>
+                {/if}
+            </div>
+        </div>
+        {/volist}
+    </div>
+    {/if}
+</div>
+{/if}
+

@@ -1,0 +1,29 @@
+<div class="focus-pic-panel">
+    <div class="bd">
+        <ul>
+            {volist name="module['art_list']" id="itemPic"}
+            <li><a href="{$itemPic.website? $itemPic.website:'javascript:;'}"><img src="__UPLOAD_PATH__/{$itemPic.photo}"/></a></li>
+            {/volist}
+        </ul>
+    </div>
+    {if $module.moduleParam[4] eq 1}
+    <div class="panel-list-tit">
+        <ul></ul>
+    </div>
+    {/if}
+</div>
+<script type="text/javascript">
+    TouchSlide({
+        slideCell:"#index-module-{$ml}",
+        mainCell:".bd ul",
+        {if $module.moduleParam[4] eq 1}
+        titCell:".panel-list-tit ul",
+        autoPage:true,
+        {/if}
+        effect:"leftLoop",
+        autoPlay:{$module.moduleParam[1]? 'true':'false'},
+        delayTime:{$module.moduleParam[2]},
+        interTime:{$module.moduleParam[3]},
+        switchLoad:"_src" //切换加载，真实图片路径为"_src"
+    });
+</script>

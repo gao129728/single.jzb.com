@@ -1,0 +1,443 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <div class="ibox-title-goback">
+                        <a href="javascript:history.back();"><i class="fa fa-reply"></i> 返回</a>
+                    </div>
+                    <h5>编辑分类</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="panel-options">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">基本设置</a></li>
+                            <li><a data-toggle="tab" href="#tab-2" aria-expanded="false">高级设置</a></li>
+                        </ul>
+                    </div>
+                    <form class="form-horizontal" name="edit_cate" id="edit_cate" method="post" action="{:url('edit_cate')}">
+                        <input type="hidden" name="id" value="{$cate.id}">
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">父级所属父级：</label>
+                                    <div class="input-group col-sm-4">
+                                        <select name="parent_id" class="form-control">
+                                            <option value="0" {if $cate.parent_id eq 0}selected{/if}>-- 默认顶级 --</option>
+                                            {foreach name="cate_tree" item="v"}
+                                                {if $v.lvl lt $Think.config.max_cate_class}
+                                                <option value="{$v.id}" {if $cate.parent_id eq $v.id}selected{/if} style="margin-left:55px;">{$v.lefthtml}{$v.name}</option>
+                                                {/if}
+                                            {/foreach}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">分类名称：</label>
+                                    <div class="input-group col-sm-4">
+                                        <input id="name" type="text" class="form-control" name="name" value="{$cate.name}">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">排&nbsp;&nbsp;序：</label>
+                                    <div class="input-group col-sm-4">
+                                        <input id="orderby" type="text" class="form-control input_wd1" name="orderby" value="{$cate.orderby}">
+                                    </div>
+                                </div>
+                                <!--<div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">英文名称：</label>
+                                    <div class="input-group col-sm-4">
+                                        <input id="en_name" type="text" class="form-control" name="en_name" value="{$cate.en_name}" >
+                                    </div>
+                                </div>-->
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">栏目目录：</label>
+                                    <div class="input-group col-sm-4">
+                                        <input id="catedir" type="text" class="form-control" name="catedir" value="{$cate.catedir}" >
+                                        <span class="help-question"><a data-toggle="tooltip" data-placement="auto right" title="显示在地址栏url中的栏目名称，目录不要包含‘ / ’，否则链接可能错误"><i class="fa fa-question-circle-o"></i></a></span>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">栏目Banner：</label>
+                                    <div class="input-group col-sm-4">
+                                        <div class="uploadImg-box">
+                                            <input type="file" name="photo" id="photo" class="imgFile" onchange="previewImage(this)"/>
+                                            <div class="up-img {if $cate.photo neq ''}hidden-box{/if}"><i class="fa fa-cloud-upload"></i><p>点击上传图片</p></div>
+                                            {if $cate.photo neq ''}
+                                            <input type="checkbox" name="delPhoto" class="input-del" value="1" />
+                                            <div class="imgView"><img src="__UPLOAD_PATH__/{$cate.photo}"/></div>
+                                            {/if}
+                                            <div class="uploadCover">
+                                                <div class="ulinfo clearfix">
+                                                    <span class="up-btn"><i class="fa fa-cloud-upload"></i></span>
+                                                    <span class="up-del"><i class="fa fa-close"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">链接网址：</label>
+                                    <div class="input-group col-sm-4">
+                                        <input id="website" type="text" class="form-control" name="website" value="{$cate.website}" >
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="cate-style">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">分类样式：</label>
+                                        <div class="col-sm-10 input-group">
+                                            <div class="radio i-checks">
+                                                <input type="radio" name='cateStyle' value="0" {if $cate.cateStyle eq 0}checked{/if}/>单页模式&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input type="radio" name='cateStyle' value="1" {if $cate.cateStyle eq 1}checked{/if}/>新闻列表&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input type="radio" name='cateStyle' value="2" {if $cate.cateStyle eq 2}checked{/if}/>图片列表&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input type="radio" name='cateStyle' value="3" {if $cate.cateStyle eq 3}checked{/if}/>图文列表&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input type="radio" name='cateStyle' value="4" {if $cate.cateStyle eq 4}checked{/if}/>表单页&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </div>
+                                            <div class="param-set-box">
+                                                <div class="set-item set-item-0 {if $cate.cateStyle neq 0}hidden-box{/if}">
+                                                    <input type="hidden" name="paramCnt[0]" value="0">
+                                                    <div class="item clearfix">
+                                                        <label class="item-label">显示方式</label>
+                                                        <div class="con">
+                                                            <select class="form-control chosen-select input_wd2" name="styleParam[0][0]">
+                                                                <option value="0" {if $cateParam[0][0] eq 0}selected{/if}>内容模式</option>
+                                                                <option value="1" {if $cateParam[0][0] eq 1}selected{/if}>专题模式</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="set-item set-item-1 {if $cate.cateStyle neq 1}hidden-box{/if}">
+                                                    <input type="hidden" name="paramCnt[1]" value="3">
+                                                    <div class="item clearfix">
+                                                        <label class="item-label">每页显示个数</label>
+                                                        <div class="con"><input type="text" class="text checknum" name='styleParam[1][0]' value="{$cateParam[1][0]}"/></div>
+                                                    </div>
+                                                    <div class="item clearfix">
+                                                        <label class="item-label">标题字数</label>
+                                                        <div class="con">
+                                                            <input type="text" class="text checknum" name='styleParam[1][1]' value="{$cateParam[1][1]}"/>
+                                                            <em><i class="fa fa-info-circle"></i> 为0则全部显示</em>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item clearfix">
+                                                        <label class="item-label">显示简介</label>
+                                                        <div class="con">
+                                                            <input type="checkbox" name="styleParam[1][2]" value="1" class="lcs_check" lcs-text="是|否" {if $cateParam[1][2] eq 1}checked{/if}/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item clearfix">
+                                                        <label class="item-label">简介字数</label>
+                                                        <div class="con">
+                                                            <input type="text" class="text checknum" name='styleParam[1][3]' value="{$cateParam[1][3]}"/>
+                                                            <em><i class="fa fa-info-circle"></i> 为0则全部显示</em>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="set-item set-item-2 {if $cate.cateStyle neq 2}hidden-box{/if}">
+                                                    <input type="hidden" name="paramCnt[2]" value="7">
+                                                    <div class="item clearfix">
+                                                        <label class="item-label">每页显示个数</label>
+                                                        <div class="con"><input type="text" class="text checknum" name='styleParam[2][0]' value="{$cateParam[2][0]}"/></div>
+                                                    </div>
+                                                    <div class="item clearfix">
+                                                        <label class="item-label">每行显示个数</label>
+                                                        <div class="con"><input type="text" class="text checknum" name='styleParam[2][1]' value="{$cateParam[2][1]}"/></div>
+                                                    </div>
+                                                    <div class="item clearfix">
+                                                        <label class="item-label">标题字数</label>
+                                                        <div class="con">
+                                                            <input type="text" class="text checknum" name='styleParam[2][2]' value="{$cateParam[2][2]}"/>
+                                                            <em><i class="fa fa-info-circle"></i> 为0则全部显示</em>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item clearfix">
+                                                        <label class="item-label">图片尺寸</label>
+                                                        <div class="con">
+                                                            <span>宽度</span><input type="text" class="text checknum" name='styleParam[2][3]' value="{$cateParam[2][3]}"/><b>px</b>
+                                                            <span>高度</span><input type="text" class="text checknum" name='styleParam[2][4]' value="{$cateParam[2][4]}"/><b>px</b>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item clearfix">
+                                                        <label class="item-label">图片边框</label>
+                                                        <div class="con">
+                                                            <input type="checkbox" name="styleParam[2][5]" value="1" class="lcs_check" lcs-text="是|否" autocomplete="off" {if $cateParam[2][5] eq 1}checked{/if}/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item clearfix">
+                                                        <label class="item-label">显示简介</label>
+                                                        <div class="con">
+                                                            <input type="checkbox" name="styleParam[2][6]" value="1" class="lcs_check" lcs-text="是|否" autocomplete="off" {if $cateParam[2][6] eq 1}checked{/if}/>
+                                                            <span>简介字数</span><input type="text" class="text checknum" name='styleParam[2][7]' value="{$cateParam[2][7]}"/>
+                                                            <em><i class="fa fa-info-circle"></i> 为0则全部显示</em>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="set-item set-item-3 {if $cate.cateStyle neq 3}hidden-box{/if}">
+                                                    <input type="hidden" name="paramCnt[3]" value="5">
+                                                    <div class="item clearfix">
+                                                        <label class="item-label">每页显示个数</label>
+                                                        <div class="con"><input type="text" class="text checknum" name='styleParam[3][0]' value="{$cateParam[3][0]}"/></div>
+                                                    </div>
+                                                    <div class="item clearfix">
+                                                        <label class="item-label">标题字数</label>
+                                                        <div class="con">
+                                                            <input type="text" class="text checknum" name='styleParam[3][1]' value="{$cateParam[3][1]}"/>
+                                                            <span><i class="fa fa-info-circle"></i> 为0则全部显示</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item clearfix">
+                                                        <label class="item-label">简介字数</label>
+                                                        <div class="con">
+                                                            <input type="text" class="text checknum" name='styleParam[3][2]' value="{$cateParam[3][2]}"/>
+                                                            <span><i class="fa fa-info-circle"></i> 为0则全部显示</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item clearfix">
+                                                        <label class="item-label">图片尺寸</label>
+                                                        <div class="con">
+                                                            <span>宽度</span><input type="text" class="text checknum" name='styleParam[3][3]' value="{$cateParam[3][3]}"/><b>px</b>
+                                                            <span>高度</span><input type="text" class="text checknum" name='styleParam[3][4]' value="{$cateParam[3][4]}"/><b>px</b>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item clearfix">
+                                                        <label class="item-label">图片边框</label>
+                                                        <div class="con">
+                                                            <input type="checkbox" name="styleParam[3][5]" value="1" class="lcs_check" lcs-text="是|否" autocomplete="off" {if $cateParam[3][5] eq 1}checked{/if}/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="set-item set-item-4 {if $cate.cateStyle neq 4}hidden-box{/if}">
+                                                    <input type="hidden" name="paramCnt[4]" value="0">
+                                                    <div class="item clearfix">
+                                                        <label class="item-label">表单选择</label>
+                                                        <div class="con">
+                                                            <select class="form-control chosen-select input_wd2" name="styleParam[4][0]">
+                                                                {volist name="form_list" id="vo"}
+                                                                <option value="{$key}" {if $cateParam[4][0] eq $key}selected{/if}>{$vo}</option>
+                                                                {/volist}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="info-style {if $cate.cateStyle eq 0 or $cate.cateStyle eq 4}hidden-box{/if}">
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">详情样式：</label>
+                                        <div class="col-sm-10 input-group">
+                                            <div class="radio i-checks">
+                                                <input type="radio" name='infoStyle' value="0" {if $cate.infoStyle eq 0}checked{/if}/>内容模式&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input type="radio" name='infoStyle' value="1" {if $cate.infoStyle eq 1}checked{/if}/>产品模式
+                                            </div>
+                                            <div class="param-set-box">
+                                                <div class="set-item set-item-1 {if $cate.infoStyle neq 1}hidden-box{/if}">
+                                                    <input type="hidden" name="infoParamCnt[1]" value="2">
+                                                    <div class="item clearfix">
+                                                        <label class="item-label">图片尺寸</label>
+                                                        <div class="con">
+                                                            <span>宽度</span><input type="text" class="text checknum" name='setParam[1][0]' value="{$infoParam[1][0]}"/><b>px</b>
+                                                            <span>高度</span><input type="text" class="text checknum" name='setParam[1][1]' value="{$infoParam[1][1]}"/><b>px</b>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item clearfix">
+                                                        <label class="item-label">开启放大镜</label>
+                                                        <div class="con">
+                                                            <input type="checkbox" name="setParam[1][2]" value="1" class="lcs_check" lcs-text="是|否" autocomplete="off" {if $infoParam[1][2] eq 1}checked{/if}/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="isForm {if $cate.cateStyle eq 4}hidden-box{/if}">
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">显示留言表单：</label>
+                                        <div class="col-sm-10 input-group">
+                                            <div class="radio i-checks">
+                                                <input type="radio" name='isForm' value="0" {if $cate.isForm eq 0}checked{/if}/>否&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input type="radio" name='isForm' value="1" {if $cate.isForm eq 1}checked{/if}/>是
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">状&nbsp;态：</label>
+                                    <div class="col-sm-6 input-group">
+                                        <input type="checkbox" name="status" value="1" class="lcs_check" lcs-text="开启|关闭" autocomplete="off" {if $cate.status eq 1}checked{/if}/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="tab-2" class="tab-pane">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">新窗口打开：</label>
+                                    <div class="col-sm-6 input-group">
+                                        <input type="checkbox" name="isTarget" value="1" class="lcs_check" lcs-text="是|否" autocomplete="off" {if $cate.isTarget eq 1}checked{/if}/>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">导航栏显示：</label>
+                                    <div class="col-sm-6 input-group">
+                                        <input type="checkbox" name="isNav" value="1" class="lcs_check" lcs-text="是|否" autocomplete="off" {if $cate.isNav eq 1}checked{/if}/>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">网页标题：</label>
+                                    <div class="input-group col-sm-4">
+                                        <input id="seo_title" type="text" class="form-control" name="seo_title" value="{$cate.seo_title}">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">网页关键字：</label>
+                                    <div class="input-group col-sm-4">
+                                        <input id="keyword" type="text" class="form-control" name="keyword" value="{$cate.keyword}">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">网页描述：</label>
+                                    <div class="input-group col-sm-4">
+                                        <textarea type="text" rows="3" name="description" id="description" class="form-control">{$cate.description}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2 button-group">
+                                <button class="btn btn-warning" type="submit"><i class="fa fa-save"></i> 保存</button>&nbsp;&nbsp;&nbsp;
+                                <a class="btn btn-danger" href="javascript:history.go(-1);"><i class="fa fa-close"></i> 返回</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script type="text/javascript">
+    $('input[name="cateStyle"]').on('ifChecked', function(event){
+        var val = $(this).val();
+        var item = $('.cate-style .set-item-'+val);
+        item.show();
+        item.siblings().hide();
+        if(val == 0 || val == 4){
+            $('.info-style').hide();
+        }else {
+            $('.info-style').show();
+        }
+        if(val == 4){
+            $('.isForm').hide();
+        }else{
+            $('.isForm').show();
+        }
+
+    });
+
+    $('input[name="infoStyle"]').on('ifChecked', function(event){
+        var val = $(this).val();
+        var item = $('.info-style .set-item-'+val);
+        if(val == 0){
+            $('.info-style .set-item').hide();
+        }else{
+            item.show();
+            item.siblings().hide();
+        }
+    });
+
+    $(function(){
+        $('#edit_cate').ajaxForm({
+            beforeSubmit: checkForm, 
+            success: complete, 
+            dataType: 'json'
+        });
+        
+        function checkForm(){
+            if( '' == $.trim($('#name').val())){
+                layer.msg('请输入分类名称',{icon:5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+            if ($.trim($('#orderby').val()) == '' || $.trim($('#orderby').val()).match(/\D/))
+            {
+                layer.msg('请输入合法的序号', {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+            if($('#photo').val() != ''){
+                var ext = $('#photo').val().substr($('#photo').val().length - 3).toLowerCase();
+                if (ext != "gif" && ext != "jpg" && ext != "png")
+                {
+                    layer.msg('图片必须是GIF、JPG或PNG格式！', {icon: 5,time:1500,shade: 0.1}, function(index){
+                        layer.close(index);
+                    });
+                    return false;
+                }
+            }
+            var result = true;
+            var cateStyle = $('input[name="cateStyle"]:checked').val();
+            if(cateStyle > 0) {
+                $('.cate-style .set-item-'+ cateStyle +' .checknum').each(function(){
+                    val = $(this).val();
+                    if(!isPositiveNum(val)){
+                        layer.msg('请输入合法的分类样式设置参数', {icon: 5,time:1500,shade: 0.1}, function(index){
+                            layer.close(index);
+                        });
+                        result = false;
+                        return false;
+                    }
+                });
+            }
+            var infoStyle = $('input[name="infoStyle"]:checked').val();
+            if(infoStyle > 0) {
+                $('.info-style .set-item-'+ infoStyle +' .checknum').each(function(){
+                    val = $(this).val();
+                    if(!isPositiveNum(val)){
+                        layer.msg('请输入合法的详情样式设置参数', {icon: 5,time:1500,shade: 0.1}, function(index){
+                            layer.close(index);
+                        });
+                        result = false;
+                        return false;
+                    }
+                });
+            }
+            if(!result){
+                return false;
+            }
+        }
+
+        function complete(data){
+            if(data.code==1){
+                layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+                    window.location.href="{:url('article/index_cate')}";
+                });
+            }else{
+                layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1});
+                return false;   
+            }
+        }
+     
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<div class="article_content">
+    {$lists.content}
+</div>
+<script src="__JS__/jquery.form.js"></script>
+{if $cateParam eq 0}
+<div class="form-area">
+    <h3>{$cate.name}</h3>
+    <form action="{:url('home/form/message')}" method="post" id="message">
+        <ul>
+            <li class="clearfix">
+                <span><em>*</em>姓名：</span>
+                <input name="name" type="text" size="30" maxlength="50" class="text"/>
+            </li>
+            <li class="clearfix">
+                <span><em>*</em>电话：</span>
+                <input name="phone" type="text" size="30" maxlength="50" class="text"/>
+            </li>
+            <li class="clearfix">
+                <span>邮箱：</span>
+                <input name="email" type="text" size="30" maxlength="50" class="text" />
+            </li>
+            <li class="clearfix">
+                <span>留言：</span>
+                <textarea name="content" rows="4" class="textarea"></textarea>
+            </li>
+            <li class="clearfix">
+                <span>验证码：</span>
+                <input name="code" type="text" size="8" maxlength="4" class="text" />
+                <img src="{:url('form/code_img')}" class="codeImg" onclick="this.src='{:url(\'form/code_img\')}?time='+Math.random();" alt="看不清,请单击"/>
+            </li>
+            <li class="clearfix input-btn">
+                <input type="submit" value="提交" class="submitBtn" />
+                <input type="reset" value="重置" class="resetBtn" />
+            </li>
+        </ul>
+    </form>
+</div>
+<script type="text/javascript">
+    $('#message')[0].reset();
+    $(function(){
+        $('#message').ajaxForm({
+            success: complete,
+            dataType: 'json'
+        });
+        function complete(data){
+            if(data.code == 1){
+                layer.alert(data.msg, {icon: 6, shade: 0.5, closeBtn: 0}, function(index){
+                    layer.close(index);
+                    $('#message')[0].reset();
+                    location.reload();
+                });
+            }else{
+                layer.msg(data.msg, {icon: 5,time:2000,shade: 0.5}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+        }
+    });
+</script>
+{elseif $cateParam eq 1 /}
+<link href="__JS__/iCheck/custom.css" rel="stylesheet" type="text/css" />
+<script src="__JS__/iCheck/icheck.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $(".i-checks").iCheck({radioClass:"iradio_square-green"});
+    });
+</script>
+<div class="form-area">
+    <h3>在线应聘</h3>
+    <form action="{:url('home/form/job')}" method="post" id="job">
+        <input type="hidden" name="cateId" value="{$cate.id}">
+        <ul class="clearfix">
+            <li class="clearfix fl col">
+                <span><em>*</em>姓名：</span>
+                <input name="name" type="text" size="30" maxlength="50" class="text"/>
+            </li>
+            <li class="clearfix fl col">
+                <span>性别：</span>
+                <div class="i-checks">
+                    <input type="radio" name="sex" value="男" checked />&nbsp;男&nbsp;&nbsp;
+                    <input type="radio" name="sex" value="女" />&nbsp;女&nbsp;
+                </div>
+            </li>
+            <li class="clearfix fl col">
+                <span><em>*</em>电话：</span>
+                <input name="phone" type="text" size="30" maxlength="50" class="text"/>
+            </li>
+            <li class="clearfix fl col">
+                <span>年龄：</span>
+                <input name="age" type="text" size="10" maxlength="2" class="text" />
+            </li>
+            <li class="clearfix fl col">
+                <span>毕业院校：</span>
+                <input name="college" type="text" size="30" class="text"/>
+            </li>
+            <li class="clearfix fl col">
+                <span>毕业时间：</span>
+                <input name="graduate_time" size="30" type="text"  class="text"/>
+            </li>
+            <li class="clearfix fl col">
+                <span>邮箱：</span>
+                <input name="email" type="text" size="30" maxlength="50" class="text"/>
+            </li>
+            <li class="clearfix fl">
+                <span>个人履历：</span>
+                <textarea name="resumes" rows="4" class="textarea wd1"></textarea>
+            </li>
+            <li class="clearfix fl">
+                <span>自我评价：</span>
+                <textarea name="appraise" rows="4" class="textarea wd1"></textarea>
+            </li>
+            <li class="clearfix fl">
+                <span>验证码：</span>
+                <input name="code" type="text" size="8" maxlength="4" class="text" />
+                <img src="{:url('form/code_img')}" class="codeImg" onclick="this.src='{:url(\'form/code_img\')}?time='+Math.random();" alt="看不清,请单击"/>
+            </li>
+            <li class="clearfix fl input-btn">
+                <input type="submit" value="提交" class="submitBtn" />
+                <input type="reset" value="重置" class="resetBtn" />
+            </li>
+        </ul>
+    </form>
+</div>
+<script type="text/javascript">
+    $('#job')[0].reset();
+    $(function(){
+        $('#job').ajaxForm({
+            success: complete,
+            dataType: 'json'
+        });
+        function complete(data){
+            if(data.code == 1){
+                layer.alert(data.msg, {icon: 6, shade: 0.5, closeBtn: 0}, function(index){
+                    layer.close(index);
+                    $('#job')[0].reset();
+                    location.reload();
+                });
+            }else{
+                layer.msg(data.msg, {icon: 5,time:2000,shade: 0.5}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+        }
+    });
+</script>
+{elseif $cateParam eq 2 /}
+<link rel="stylesheet" type="text/css" href="__CSS__/area.css" />
+<script type="text/javascript" src="__JS__/data.js"></script>
+<script type="text/javascript" src="__JS__/area.js"></script>
+<div class="form-area">
+    <h3>{$cate.name}</h3>
+    <form action="{:url('home/form/apply')}" method="post" id="apply">
+        <ul>
+            <li class="clearfix fl col">
+                <span><em>*</em>姓名：</span>
+                <input name="name" type="text" size="30" maxlength="50" class="text"/>
+            </li>
+            <li class="clearfix fl col">
+                <span>邮箱：</span>
+                <input name="email" type="text" size="30" maxlength="50" class="text" />
+            </li>
+            <li class="clearfix fl">
+                <span><em>*</em>电话：</span>
+                <input name="phone" type="text" size="30" maxlength="50" class="text"/>
+            </li>
+            <li class="clearfix fl">
+                <span><em>*</em>所在地区：</span>
+                <input id="province" class="text wd2" name="province" placeholder="请选择省份" type="text">
+                <input id="city" class="text wd2" name="city" placeholder="请选择城市" type="text" >
+                <input id="county" class="text wd2" name="county" placeholder="请选择地区" type="text">
+            </li>
+            <li class="clearfix fl">
+                <span>详细地址：</span>
+                <input name="address" type="text" class="text wd1"/>
+            </li>
+            <li class="clearfix fl">
+                <span>留言：</span>
+                <textarea name="content" rows="4" class="textarea wd1"></textarea>
+            </li>
+            <li class="clearfix fl">
+                <span>验证码：</span>
+                <input name="code" type="text" size="8" maxlength="4" class="text" />
+                <img src="{:url('form/code_img')}" class="codeImg" onclick="this.src='{:url(\'form/code_img\')}?time='+Math.random();" alt="看不清,请单击"/>
+            </li>
+            <li class="clearfix input-btn fl">
+                <input type="submit" value="提交" class="submitBtn" />
+                <input type="reset" value="重置" class="resetBtn" />
+            </li>
+        </ul>
+    </form>
+</div>
+<script type="text/javascript">
+    $('#apply')[0].reset();
+    new locationCard({
+        ids: ['province', 'city', 'county']
+    }).init();
+    $(function(){
+        $('#apply').ajaxForm({
+            success: complete,
+            dataType: 'json'
+        });
+        function complete(data){
+            if(data.code == 1){
+                layer.alert(data.msg, {icon: 6, shade: 0.5, closeBtn: 0}, function(index){
+                    layer.close(index);
+                    $('#apply')[0].reset();
+                    location.reload();
+                });
+            }else{
+                layer.msg(data.msg, {icon: 5,time:2000,shade: 0.5}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+        }
+    });
+</script>
+{/if}

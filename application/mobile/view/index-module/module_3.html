@@ -1,0 +1,50 @@
+{if $module.titleStyle eq 2/}
+    <div class="pic-txt-panel clearfix">
+        <ul>
+            {volist name="module['cate_article_list']" id="tab_cate_name"}
+            <li class="clearfix">
+                {if $tab_cate_name.art_list}
+                    {if $module.moduleParam[2]}
+                    <p class="pic {if $module.moduleParam[4]=='left'}fl{elseif $module.moduleParam[4]=='right'/}fr{/if}"><a href="{$tab_cate_name.art_list.url}" title="{$tab_cate_name.art_list.title}"><img src="__UPLOAD_PATH__/{$tab_cate_name.art_list.photo}" {if $module.moduleParam[3]}class="imgBd"{/if} alt="{$tab_cate_name.art_list.title}"></a></p>
+                    {/if}
+                    <div class="txt">
+                        <div class="info">{$tab_cate_name.art_list.content|leftstr_html=$module.moduleParam[0]}</div>
+                    </div>
+                    {if $module.moduleParam[1]}
+                    <p class="detail"><a href="{$tab_cate_name.art_list.url}">查看更多 +</a></p>
+                    {/if}
+                {/if}
+            </li>
+            {/volist}
+        </ul>
+    </div>
+    <script type="text/javascript">
+        TouchSlide({
+            slideCell:"#index-module-{$ml}",
+            mainCell:".pic-txt-panel ul",
+            titCell:".area-hd-2 .hd li",
+            autoPage:false,
+            autoPlay:false,
+            effect:"leftLoop",
+            switchLoad:"_src"
+        });
+    </script>
+{else/}
+<div class="pic-txt-panel clearfix">
+    <ul>
+        <li class="clearfix">
+            {if $module.art_list}
+                {if $module.moduleParam[2]}
+                <p class="pic {if $module.moduleParam[4]=='left'}fl{elseif $module.moduleParam[4]=='right'/}fr{/if}"><a href="{$module.art_list.url}" title="{$module.art_list.title}"><img src="__UPLOAD_PATH__/{$module.art_list.photo}" {if $module.moduleParam[3]}class="imgBd"{/if} alt="{$module.art_list.title}"></a></p>
+                {/if}
+                <div class="txt">
+                    <div class="info">{$module.art_list.content|leftstr_html=$module.moduleParam[0]}</div>
+                </div>
+                {if $module.moduleParam[1]}
+                <p class="detail"><a href="{$module.art_list.url}">查看更多 +</a></p>
+                {/if}
+            {/if}
+        </li>
+    </ul>
+</div>
+{/if}

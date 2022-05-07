@@ -1,0 +1,36 @@
+{if $lists}
+<div class="picList">
+    <ul class="clearfix">
+        {volist name="lists" id="item"}
+        <li style="width:{$cateParam[5]? $cateParam[3]+2:$cateParam[3]}px;" {if $i % $cateParam[1] > 0} class="MgRt"{/if}>
+            <div class="pic" style="height:{$cateParam[5]? $cateParam[4]+2:$cateParam[4]}px;">
+                {if $item.photo neq ''}
+                <a href="{$item.url}" title="{$item.title}" class="mask" target="_blank"><i class="iconfont">+</i></a>
+                <a href="{$item.url}" {if $item.website neq ''}target="_blank"{/if} style="width:{$cateParam[3]}px;height:{$cateParam[4]}px;" class="imgbox {if $cateParam[5]}imgBd{/if} " >
+                	<img src="__UPLOAD_PATH__/{$item.photo}" width="{$cateParam[3]}" height="{$cateParam[4]}" alt="{$item.title}" />
+                </a>
+                {else/}
+                <div class="noPic-box">
+                    <div class="img"><i class="iconfont icon-tupian"></i><p>暂无图片</p></div>
+                </div>
+                {/if}
+            </div>
+            <p class="tit"><a href="{$item.url}" title="{$item.title}" {if $item.website neq ''}target="_blank"{/if}>{$item.title|leftstr=$cateParam[2]}</a></p>
+            {if $cateParam[6]}
+            <div class="info">{$item.content|leftstr_html=$cateParam[7]}</div>
+            {/if}
+        </li>
+        {/volist}
+    </ul>
+    <!--分页-->
+</div>
+<script type="text/javascript">
+    setPicSpace(".picList",{$cateParam[5]? $cateParam[3]+2:$cateParam[3]},{$cateParam[1]});
+</script>
+<div class="page">{$lists->render()}</div>
+{else/}
+<div class="no-msg-tip">
+    <img src="__IMG__/no-msg-img.png" />
+    <p>暂无信息</p>
+</div>
+{/if}

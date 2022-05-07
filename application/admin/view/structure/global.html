@@ -1,0 +1,49 @@
+<div class="col-sm-4">
+    <form name="update_order" id="update_order" method="post" action="{:url('update_order')}">
+        <div class="file-manager" style="overflow:hidden; overflow-y:auto;">
+            <div class="homefa"><i class="fa fa-reorder"></i>首页结构示意图</div>
+            <ul id="sortable" class="Ulsort">
+                {volist name="structure_list" id="item"}
+                <li class="ui-state {if $structure_id eq $item.id}active{/if}">
+                    <input type="hidden" name="st_id[]" value="{$item.id}">
+                    <div class="ui-state-box" onmouseup="show_menu(this)">
+                        <span class="fa fa-arrows" data-toggle="tooltip" title="拖拽我"></span>
+                        <span>{$item.name}</span>
+                        <span class="pull-right"><i class="chevron fa {if $structure_id eq $item.id}fa-chevron-down{else/}fa-chevron-right{/if}"></i></span>
+                        <i class="fa fa-caret-right"></i>
+                    </div>
+                    <span class="handle-btn">
+                        <a href="javascript:;" onclick="show_structure({$item.id},this)"><i class="fa {$item.status? 'fa-eye':'fa-eye-slash'}" data-toggle="tooltip" title="{$item.status? '显示':'不显示'}"></i></a>
+                        <a href="{:url('structure/edit_structure',['id'=>$item.id])}"><i class="fa fa-pencil" data-toggle="tooltip" title="编辑"></i></a>
+                        <a href="javascript:;" onclick="del_structure({$item.id})"><i class="fa fa-trash-o" data-toggle="tooltip" title="删除"></i></a>
+                        <a href="{:url('structure/add_module',['st_id'=>$item.id])}"><span><i class="fa fa-plus" data-toggle="tooltip" title="添加子板块"></i></span></a>
+                    </span>
+                    {if $item.module}
+                    <dl class="ui_dl_menu">
+                        {volist name="item['module']" id="vo"}
+                        <dd class="ui-state {if $module_id eq $vo.id}on{/if}">
+                            <input type="hidden" name="mo_id[{$item.id}][]" value="{$vo.id}">
+                            <div class="son-state clearfix">
+                                <span class="column"><span class="fa fa-arrows" data-toggle="tooltip" title="拖拽我"></span>{$vo.title}</span>
+                                  <span class="pull-right">
+                                    <a href="javascript:;" onclick="show_module({$vo.id},this)"><i class="fa {$vo.state? 'fa-eye':'fa-eye-slash'}" data-toggle="tooltip" title="{$vo.state? '显示':'不显示'}"></i></a>
+                                    <a href="{:url('structure/edit_module',['id'=>$vo.id])}"><i class="fa fa-pencil" data-toggle="tooltip" title="编辑"></i></a>
+                                    <a href="javascript:;" onclick="del_module({$vo.id})"><i class="fa fa-trash-o" data-toggle="tooltip" title="删除"></i></a>
+                                  </span>
+                            </div>
+                        </dd>
+                        {/volist}
+                    </dl>
+                    {/if}
+                </li>
+                {/volist}
+            </ul>
+            <div class="add_module">
+                <a href="{:url('index')}">
+                    <i class="fa fa-plus"></i>
+                    添加首页模块
+                </a>
+            </div>
+        </div>
+    </form>
+</div>

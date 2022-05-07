@@ -1,0 +1,83 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>系统配置</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <form action="{:url('save')}" method="post" class="form-horizontal" id="config">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">后台状态：</label>
+                            <div class="input-group col-sm-1">
+                                <input type="checkbox" name="config[web_site_close]" value="1" class="lcs_check" lcs-text="开启|关闭" autocomplete="off" {if $config.web_site_close eq 1}checked{/if}/>
+                                <span class="help-question"><a data-toggle="tooltip" data-placement="auto right" title="关闭后除管理员外所有人访问不了后台"><i class="fa fa-question-circle-o"></i></a></span>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">后台每页记录数：</label>
+                            <div class="input-group col-sm-1">
+                                <input type="text" class="form-control" name="config[list_rows]" value="{$config.list_rows}">
+                                <span class="help-question"><a data-toggle="tooltip" data-placement="auto right" title="后台数据每页显示记录数"><i class="fa fa-question-circle-o"></i></a></span>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">禁止后台访问IP：</label>
+                            <div class="input-group col-sm-4">
+                                <textarea class="form-control" type="text" rows="3" name="config[admin_allow_ip]">{$config.admin_allow_ip}</textarea>
+                                <span class="help-question"><a data-toggle="tooltip" data-placement="auto right" title="多个用#号分隔，如果不配置表示不限制IP访问"><i class="fa fa-question-circle-o"></i></a></span>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2 button-group">
+                                <button class="btn btn-warning" type="submit"><i class="fa fa-save"></i> 保存信息</button>&nbsp;&nbsp;&nbsp;
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script type="text/javascript">
+    $(function(){
+        $('#config').ajaxForm({
+            success: complete, // 这是提交后的方法
+            dataType: 'json'
+        });
+
+        function complete(data){
+            if(data.code == 1){
+                layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                    location.reload();
+                });
+            }else{
+                layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+        }
+
+    });
+</script>
+</body>
+</html>

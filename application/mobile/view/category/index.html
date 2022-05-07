@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+{include file="public/head" /}
+<body>
+<!--头部-->
+<div class="homebody {if $cate.cateStyle eq 0 and $cateParam eq 1}full-container{/if}">
+	{include file="public/header" /}
+	<!--主要内容-->
+	{include file="public/sub_menu" /}
+	<div class="MainCon">
+		<div class="box-wrap">
+			{switch name="cate.cateStyle"}
+				{case value="0"}{include file="cate-module/module_0" /}{/case}
+				{case value="1"}{include file="cate-module/module_1" /}{/case}
+				{case value="2"}{include file="cate-module/module_2" /}{/case}
+				{case value="3"}{include file="cate-module/module_3" /}{/case}
+				{case value="4"}{include file="cate-module/module_4" /}{/case}
+				{default /}模板文件不存在
+			{/switch}
+		</div>
+	</div>
+	<!--底部-->
+	{include file="public/footer" /}
+
+</div>
+{include file="public/nav" /}
+
+</body>
+</html>

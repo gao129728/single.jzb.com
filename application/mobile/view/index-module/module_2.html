@@ -1,0 +1,75 @@
+{if $module.titleStyle eq 2/}
+    <div class="news-list-panel">
+        <div class="bd">
+            {volist name="module['cate_article_list']" id="tab_cate_name"}
+                <ul>
+                    {volist name="tab_cate_name['art_list']" id="newsList"}
+                    <li class="clearfix">
+                        {if $module.moduleParam[5]}
+                        <p class="pic {if $module.moduleParam[6]}imgBd{/if}"><a href="{$newsList.url}" title="{$newsList.title}"><img src="__UPLOAD_PATH__/{$newsList.photo}"  alt="{$newsList.title}"></a></p>
+                        {elseif $module.moduleParam[2]/}
+                        <p class="time">{$newsList.create_time|date="m-d",###}<span>{$newsList.create_time|date="Y",###}</span></p>
+                        {/if}
+                        <h4><a href="{$newsList.url}" title="{$newsList.title}" target="_blank">{$newsList.title|leftstr=$module.moduleParam[1]}</a></h4>
+                        {if $module.moduleParam[3]}
+                        <div class="i">{$newsList.content|leftstr_html=$module.moduleParam[4]}</div>
+                        {/if}
+                    </li>
+                    {/volist}
+                </ul>
+            {/volist}
+        </div>
+    </div>
+{else/}
+<div class="news-list-panel">
+    <div class="bd">
+        {if $module.moduleParam[7] eq 0}<ul>{/if}
+            {volist name="module['art_list']" id="newsList"}
+                {if $module.moduleParam[7] eq 1 and ($module['moduleParam'][8] eq 1 or $i%$module['moduleParam'][8] eq 1)}<ul class="clearfix">{/if}
+                <li class="clearfix">
+                    {if $module.moduleParam[5]}
+                    <p class="pic {if $module.moduleParam[6]}imgBd{/if}"><a href="{$newsList.url}" title="{$newsList.title}"><img src="__UPLOAD_PATH__/{$newsList.photo}"  alt="{$newsList.title}"></a></p>
+                    {elseif $module.moduleParam[2]/}
+                    <p class="time">{$newsList.create_time|date="m-d",###}<span>{$newsList.create_time|date="Y",###}</span></p>
+                    {/if}
+                    <h4><a href="{$newsList.url}" title="{$newsList.title}" target="_blank">{$newsList.title|leftstr=$module.moduleParam[1]}</a></h4>
+                    {if $module.moduleParam[3]}
+                    <div class="i">{$newsList.content|leftstr_html=$module.moduleParam[4]}</div>
+                    {/if}
+                </li>
+                {if $module.moduleParam[7] eq 1 and ($module['moduleParam'][8] eq 1 or $i%$module['moduleParam'][8] eq 0 or $i eq $module.art_list_cnt)}</ul>{/if}
+            {/volist}
+        {if $module.moduleParam[7] eq 0}</ul>{/if}
+    </div>
+    {if $module.moduleParam[9] eq 1}
+    <div class="panel-list-tit">
+        <ul></ul>
+    </div>
+    {/if}
+</div>
+{/if}
+<script type="text/javascript">
+    {if $module.titleStyle eq 2}
+    TouchSlide({
+        slideCell:"#index-module-{$ml}",
+        mainCell:".news-list-panel .bd",
+        titCell:".area-hd-2 .hd li",
+        autoPage:false,
+        autoPlay:false,
+        effect:"leftLoop",
+        switchLoad:"_src"
+    });
+    {elseif $module.moduleParam[7] eq 1/}
+    TouchSlide({
+        slideCell:"#index-module-{$ml}",
+        mainCell:".news-list-panel .bd",
+        {if $module.moduleParam[9] eq 1}
+        titCell:".panel-list-tit ul",
+        autoPage:true,
+        {/if}
+        autoPlay:true,
+        effect:"leftLoop",
+        switchLoad:"_src"
+        });
+        {/if}
+</script>

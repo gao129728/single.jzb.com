@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html>
+{include file="public/head" /}
+<body>
+<!--头部-->
+<div class="homebody">
+	{include file="public/header" /}
+	<!--主要内容-->
+	<div class="sub_menu">
+	    <script type="text/javascript" src="__JS__/flexible.js"></script>
+	    <script type="text/javascript" src="__JS__/iscroll.js"></script>
+	    <script type="text/javascript" src="__JS__/navbarscroll.js"></script>
+	    <div class="sub_menu_1" id="wrapper01">
+	        <div class="scroller">
+	            <ul class="clearfix">
+	                <li><a href="{:url('mobile/message/index')}" class="on">{$baseName}</a></li>
+	            </ul>
+	        </div>
+	    </div>
+	    <script type="text/javascript">
+	        $(function(){
+	            var second_select = $('.sub_menu_1 li .on').parent().index();
+	            $('#wrapper01').navbarscroll({
+	                defaultSelect:second_select
+	            });
+	        });
+	    </script>
+	</div>
+	<div class="MainCon">
+		<div class="box-wrap">
+			<script src="__JS__/jquery.form.js"></script>
+			<div class="form-area">
+			    <form action="{:url('mobile/form/message')}" method="post" id="message">
+			        <ul>
+			            <li class="clearfix">
+			                <span><em>*</em>姓名：</span>
+			                <input name="name" type="text" maxlength="50" class="text"/>
+			            </li>
+			            <li class="clearfix">
+			                <span><em>*</em>电话：</span>
+			                <input name="phone" type="text" maxlength="50" class="text"/>
+			            </li>
+			            <li class="clearfix">
+			                <span>邮箱：</span>
+			                <input name="email" type="text" maxlength="50" class="text" />
+			            </li>
+			            <li class="clearfix">
+			                <span>留言：</span>
+			                <textarea name="content" class="textarea"></textarea>
+			            </li>
+			            <li class="clearfix yzm">
+			                <span>验证码：</span>
+			                <input name="code" type="text" maxlength="4" class="text" />
+			                <img src="{:url('form/code_img')}" class="codeImg" onclick="this.src='{:url(\'form/code_img\')}?time='+Math.random();" alt="看不清,请单击"/>
+			            </li>
+			            <li class="clearfix input-btn">
+			                <input type="submit" value="提交" class="submitBtn" />
+			                <input type="reset" value="重置" class="resetBtn" />
+			            </li>
+			        </ul>
+			    </form>
+			</div>
+			<script type="text/javascript">
+			    $('#message')[0].reset();
+			    $(function(){
+			        $('#message').ajaxForm({
+			            success: complete,
+			            dataType: 'json'
+			        });
+			        function complete(data){
+			            if(data.code == 1){
+			                layer.open({content: data.msg, btn:'确定', yes:function(index){
+			                        layer.close(index);
+			                        $('#message')[0].reset();
+			                        location.reload();
+			                    }
+			                });
+			            }else{
+			                layer.open({content: data.msg, time: 2 });
+			                return false;
+			            }
+			        }
+			    });
+			</script>
+		</div>
+	</div>
+	<!--底部-->
+	{include file="public/footer" /}
+
+</div>
+{include file="public/nav" /}
+
+</body>
+</html>

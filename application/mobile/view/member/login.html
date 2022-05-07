@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+{include file="public/head" /}
+<body>
+<!--头部-->
+<script src="__JS__/jquery.form.js"></script>
+<!--主要内容-->
+<div class="loginBox">
+    <h1 class="logo"><a href="{:url('mobile/index/index')}" title="{$config.wap_site_title}"><img src="__UPLOAD_PATH__/{$config.wap_site_logo}" alt="{$config.web_site_title}"/></a></h1>
+    <div class="login">
+        <form action="{:url('mobile/member/login')}" method="post" id="login">
+            <ul>
+                <li>
+                    <input type="text" name="username" class="text" placeholder="请输入用户名或邮箱"/>
+                </li>
+                <li>
+                    <input type="password" name="password" class="text" placeholder="请输入您的密码"/>
+                </li>
+            </ul>
+            <input type="submit" class="u-subBtn" value="登录"/>
+        </form>
+        <p class="toLogin clearfix"><span>没有账号？<a href="{:url('mobile/member/register')}">去注册 </a></span></p>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $('#login').ajaxForm({
+            beforeSubmit: checkForm,
+            success: complete,
+            dataType: 'json'
+        });
+        function checkForm() {
+            $('.u-subBtn').attr("disabled", "disabled");
+        }
+        function complete(data){
+            if(data.code == 1){
+                layer.open({content:data.msg, time:2});
+                setTimeout(function(){
+                    window.location.href="{:url('mobile/index/index')}";
+                },2000);
+            }else{
+                layer.open({content:data.msg, time:2});
+                $('.u-subBtn').removeAttr("disabled");
+                return false;
+            }
+        }
+    });
+</script>
+</body>
+</html>

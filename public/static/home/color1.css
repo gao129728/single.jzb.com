@@ -1,0 +1,70 @@
+﻿/*蓝色系*/
+a:hover, a:active, a:focus {color:#0275C6; text-decoration:none; }
+/*头部*/
+.headTop div.fr a:hover{color:#0275C6;}
+.header .rig h5{color:#0275C6;}
+.MainNav{background:#0275C6;border-bottom: 2px solid #E7B21C;}
+.MainNav li>a:hover, .MainNav li a.current, .MainNav li a.cur{background:#E7B21C;}
+.subNav {background:#E7B21C;}
+.MainNav .subNav dt a:hover {background:#0275C6;}
+
+.MainNav-1 .nav-1>ul>li>a:before{background:#0275C6; }
+.MainNav-1 .nav-1>ul>li:hover>a,.MainNav-1 .nav-1>ul>li.on>a,.MainNav-1 .nav-1 .nav-item li:hover a span,
+.MainNav-1 .nav-1 .nav-item li:hover a i.iconfont{color:#0275C6;}
+
+.mainNav-3 .nav>ul>li:hover>a,.mainNav-3 .nav>ul>li.active>a{background:#0275C6;color:#fff;}
+.header-fix .mainNav-3{background:#0275C6;}
+.header-fix .mainNav-3 .nav>ul>li:hover>a,
+.header-fix .mainNav-3 .nav>ul>li.active>a{background:#fff;color:#0275C6;}
+.mainNav-3 .nav .nav-item li:hover a{color:#0275C6;}
+
+.HomeBan .hd li{background: #d2d1d1;}
+.HomeBan .hd li.on{background: #0275C6;}
+
+/*area-content*/
+.col-hd-2 h3:after{background: #396faf;}
+.col-hd-2 .m a:hover{ color: #0275C6;}
+/*.col-hd-2 .m a:hover{background: #396faf;}*/
+.col-hd-3 li.on { background: #396faf; }
+/*.col-hd-3 .m a{ background: #55b049;}*/
+.col-hd-3 .m a:hover{color: #0275C6;}
+
+/*search_box*/
+.search_box .fl a:hover{color:#0275C6; }
+.search_form i {background: #0275C6;}
+.search_form i:hover { background: #55b049 }
+
+
+/*首页tab栏目切换*/
+.tab-pic-panel dl dt.on em{background:#0275C6;}
+.tab-pic-panel dl dt.on span { color: #E5E5E5;}
+
+/*首页图片列表*/
+.pic-list-panel .aprev:hover, .pic-list-panel .anext:hover{color:#0275C6;}
+.pic-list-panel li:hover .intro:after,.focus-panel .hd li.on{background:#396FAF;}
+
+/*首页图文模式 */
+.pic-txt-panel .txt .line{ background: #55b049;}
+.pic-txt-panel .detail a:hover{border-color: #0275C6; color:#0275C6;}
+
+/*首页问答模式 */
+.question-list-panel li .tit span{ background: #396FAF;}
+.question-list-panel li .answer span{background: #55b049;}
+
+/*页面底部通用*/
+.footer a:hover { color: #2e9aff; }
+.footer .copyright a:hover{color: #2e9aff; }
+
+/*内页*/
+
+.smallImg .p_list li.on{border:2px solid #3C6FAF;}
+.product-show .online_qq a{background:#3C6FAF;}
+.picList li:hover .tit a{color:#0275C6;}
+
+.sub-menu li a.active, .sub-menu li a:hover{background: #0275C6;}
+.sub-menu li a.active span, .sub-menu li a:hover span { color: #E5E5E5; }
+.sub-menu .lvl-third li a.active, .sub-menu .lvl-third li a:hover{ color: #0275C6;}
+.pagination a:hover{  border:1px solid #0275C6;  color:#0275C6; }
+.pagination a.cur{ border:1px solid #0275C6; background:#0275C6;  color:#fff;  }
+.form-area h3{ color: #396faf;}.form-area .input-btn input {background:#396FAF;}
+

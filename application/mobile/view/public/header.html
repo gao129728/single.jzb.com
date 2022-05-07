@@ -1,0 +1,99 @@
+{if $config.wap_nav_style eq 1}
+<header class="header clearfix">
+    <h1 class="logo fl"><a href="{:url('mobile/index/index')}" title="{$config.wap_site_title}"><img src="__UPLOAD_PATH__/{$config.wap_site_logo}" alt="{$config.web_site_title}"/></a></h1>
+    <div class="fr" style="margin-right:0.3rem;">
+	    <div class="hshare fl">
+	        <a href="tel:{$config.service_line}"> <i class="iconfont icon-dianhua"></i> </a>
+	        <a href="sms:{$config.wap_service_qq}"> <i class="iconfont icon-mess"></i> </a>
+	        {if $web_site_member eq 1}
+	            {if $isLogin}
+	            <a href="javascript:;" onclick="loginModel()"><i class="iconfont icon-huiyuan21"></i></a>
+	            <script type="text/javascript">
+	                function loginModel(){
+	                    layer.open({
+	                        content: '您已经登录，用户名：{$member.account}'
+	                        ,btn: ['确定','退出登录']
+	                        ,yes: function(index){
+	                            layer.close(index);
+	                        }
+	                        ,no:function(index){
+	                            window.location = "{:url('mobile/member/loginOut')}";
+	                            layer.close(index);
+	                        }
+	                    });
+	                }
+	            </script>
+	            {else/}
+	            <a href="{:url('mobile/member/login')}"><i class="iconfont icon-huiyuan21"></i></a>
+	            {/if}
+	        {/if}
+	    </div>
+	    <div class="menu fl">
+	        <i class="iconfont icon-mulu"></i>
+	    </div>
+    </div>
+</header>
+{elseif $config.wap_nav_style eq 2 or $config.wap_nav_style eq 3/}
+<header class="header2">
+	<h1 class="logo"><a href="{:url('mobile/index/index')}" title="{$config.wap_site_title}"><img src="__UPLOAD_PATH__/{$config.wap_site_logo}" alt="{$config.web_site_title}"/></a></h1>
+	<nav class="menuNav2" id="wrapperNav">
+		<div class="scroller">
+		    <ul>
+		        <li><a href="{:url('mobile/index/index')}" {if $navCur eq 'index'}class="on"{/if}>首页</a></li>
+		        {volist name="nav_cate" id="nav"}
+		        <li><a href="{$nav.url}" {if $navCur eq $nav.cateId}class="on"{/if}>{$nav.name}</a></li>
+		        {/volist}
+		    </ul>
+	    </div>
+	</nav>
+</header>
+<script type="text/javascript">
+    $(function(){
+        var second_select = $('.menuNav2 li .on').parent().index();
+        $('#wrapperNav').navbarscroll({
+            defaultSelect:second_select
+        });
+    });
+</script>
+{/if}
+
+<!--banner-->
+{if $inside_banner}
+<aside class="iBanner">
+    <img src="__UPLOAD_PATH__/{$inside_banner}">
+</aside>
+{elseif $banner_img /}
+    {if $banner_config.switch eq 1}
+    <aside class="HomeBan" id="banner">
+        <div class="bd">
+            <ul>
+                {volist name="banner_img" id="vo"}
+                <li><a href="{$vo.url? $vo.url:'javascript:;'}" {if $vo.url neq ''}target="_blank"{/if}><img src="__UPLOAD_PATH__/{$vo.photo}"/></a></li>
+                {/volist}
+            </ul>
+        </div>
+        {if $banner_config.circle_btn eq 1}
+        <div class="hd"><ul></ul></div>
+        {/if}
+    </aside>
+    <script type="text/javascript">
+        TouchSlide({
+            slideCell:"#banner",
+            mainCell:".bd ul",
+            {if $banner_config.circle_btn eq 1}
+            titCell:".hd ul",
+            autoPage:true,
+            {/if}
+            effect:"leftLoop",
+            autoPlay:{$banner_config.auto? 'true':'false'},
+            delayTime:{$banner_config.effect_time},
+            interTime:{$banner_config.interval_time},
+            switchLoad:"_src" //切换加载，真实图片路径为"_src"
+        });
+    </script>
+    {else/}
+    <div class="iBanner">
+        <a href="{$banner_img.url? $banner_img.url:'javascript:;'}" {if $banner_img.url neq ''}target="_blank"{/if}><img src="__UPLOAD_PATH__/{$banner_img.photo}"></a>
+    </div>
+    {/if}
+{/if}

@@ -1,0 +1,66 @@
+<!Doctype html>
+<html>
+{include file="public/head" /}
+<body>
+<div class="homebody">
+{include file="public/header" /}
+<!--主要内容-->
+<section class="MainCon">	
+	<script type="text/javascript" src="/static/mobile/js/flexible.js"></script>    
+	<script type="text/javascript" src="/static/mobile/js/iscroll.js"></script>    
+	<script type="text/javascript" src="/static/mobile/js/navbarscroll.js"></script>
+	{if $index_cate}
+	<div class="menulist">
+		<ul class="clearfix">
+			{volist name="index_cate" id="vo"}
+			<li>
+				<a href="{$vo.url}">
+					<span><img src="__UPLOAD_PATH__/{$vo.photo}"/></span>
+					<p>{$vo.title}</p>
+				</a>
+			</li>
+			{/volist}
+		</ul>
+	</div>
+	{/if}
+	{volist name="module_list" id="module" key="ml"}
+	<div class="area-content" id="index-module-{$ml}" style="padding:{$module.topSpace}px 0 {$module.bottomSpace}px; {if $module.bgcolor}background-color:{$module.bgcolor};{/if} {if $module.photo}background-image:url('__UPLOAD_PATH__/{$module.photo}');{/if}">
+		{if $module.titleStyle eq 1}
+		<div class="area-hd-1">
+			<h3 class="iTit">{$module.title}</h3>
+		</div>
+		{elseif $module.titleStyle eq 2/}
+		<div class="area-hd-2 clearfix">
+			<h3 class="iTit">{$module.title}</h3>
+			<div class="hd">
+				<ul>
+					{volist name="module['cate_article_list']" id="tab_cate_name"}
+					<li><a href="{$tab_cate_name.url}">{$tab_cate_name.name}</a><span></span></li>
+					{/volist}
+				</ul>
+			</div>
+		</div>
+		{elseif $module.titleStyle eq 3/}
+		<div class="area-hd-3 clearfix">
+			{if $module.titPic}<h3><img src="__UPLOAD_PATH__/{$module.titPic}"></h3>{/if}
+		</div>
+		{/if}
+		{switch name="module.module_style"}
+		{case value="1"}{include file="index-module/module_1" /}{/case}
+		{case value="2"}{include file="index-module/module_2" /}{/case}
+		{case value="3"}{include file="index-module/module_3" /}{/case}
+		{case value="4"}{include file="index-module/module_4" /}{/case}
+		{case value="5"}{include file="index-module/module_5" /}{/case}
+		{default /}模板文件不存在
+		{/switch}
+	</div>
+	{/volist}
+</section>
+<!--footer-->
+{include file="public/footer" /}
+
+</div>
+<!--导航-->
+{include file="public/nav" /}
+</body>
+</html>

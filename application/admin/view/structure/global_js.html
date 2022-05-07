@@ -1,0 +1,92 @@
+<script src="__JS__/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+<script type="text/javascript">
+    $("[data-toggle='tooltip']").tooltip();
+    var mouseButtonFlag = false;//控制是否触发点击事件
+    $( "#sortable" ).sortable({
+        start: function (event, ui) {
+            mouseButtonFlag = true;
+        },
+        stop: function (event, ui) {
+            mouseButtonFlag = false;
+            update_structure_order();
+        }
+    });
+    $( ".ui_dl_menu" ).sortable({
+        stop: function (event, ui) {
+            update_structure_order();
+        }
+    });
+    function show_menu(obj){
+        if(mouseButtonFlag){
+            return;
+        }
+        $(obj).siblings('.ui_dl_menu').slideDown();
+        $(obj).find('.chevron').removeClass('fa-chevron-right').addClass('fa-chevron-down');
+        $(obj).parent().siblings().find('.ui_dl_menu').slideUp();
+        $(obj).parent().siblings().find('.chevron').removeClass('fa-chevron-down').addClass('fa-chevron-right');
+    }
+    //删除模块
+    function del_structure(id){
+        layer.confirm('确认删除此模块?', {icon: 3, title:'提示'}, function(index){
+            $.getJSON('{:url("del_structure")}', {'id':id}, function(res){
+                if(res.code == 1){
+                    layer.msg(res.msg,{icon:1,time:2000,shade: 0.1},function(){
+                        layer.close(index);
+                        window.location.href="{:url('structure/index')}";
+                    });
+                }else{
+                    layer.msg(res.msg,{icon:0,time:1500,shade: 0.1});
+                    return false;
+                }
+            });
+            layer.close(index);
+        })
+    }
+    //删除子版块
+    function del_module(id){
+        layer.confirm('确认删除此子版块?', {icon: 3, title:'提示'}, function(index){
+            $.getJSON('{:url("del_module")}', {'id':id}, function(res){
+                if(res.code == 1){
+                    layer.msg(res.msg,{icon:1,time:2000,shade: 0.1},function(){
+                        layer.close(index);
+                        window.location.href='{:url("structure/add_module")}?st_id='+res.data
+                    });
+                }else{
+                    layer.msg(res.msg,{icon:0,time:1500,shade: 0.1});
+                    return false;
+                }
+            });
+            layer.close(index);
+        })
+    }
+    //设置模块状态
+    function show_structure(id, obj){
+        $.getJSON('{:url("state_structure")}', {'id':id}, function(res){
+            if(res.code == 1){
+                $(obj).find('i').removeClass('fa-eye').addClass('fa-eye-slash').attr('title','不显示').attr('data-original-title', '不显示');
+                $(obj).find('.tooltip-inner').text('不显示');
+            }else if(res.code == 2){
+                $(obj).find('i').removeClass('fa-eye-slash').addClass('fa-eye').attr('title','显示').attr('data-original-title', '显示');
+                $(obj).find('.tooltip-inner').text('显示');
+            }
+        });
+    }
+
+    //设置模块状态
+    function show_module(id, obj){
+        $.getJSON('{:url("state_module")}', {'id':id}, function(res){
+            if(res.code == 1){
+                $(obj).find('i').removeClass('fa-eye').addClass('fa-eye-slash').attr('title','不显示').attr('data-original-title', '不显示');
+                $(obj).find('.tooltip-inner').text('不显示');
+            }else if(res.code == 2){
+                $(obj).find('i').removeClass('fa-eye-slash').addClass('fa-eye').attr('title','显示').attr('data-original-title', '显示');
+                $(obj).find('.tooltip-inner').text('显示');
+            }
+        });
+    }
+
+    function update_structure_order(){
+        $("#update_order").ajaxSubmit();
+    }
+</script>

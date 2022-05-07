@@ -1,0 +1,276 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<link href="__JS__/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+<style type="text/css">
+    .panel-options{padding-bottom:30px;}
+    .param-set-box{padding-top:15px;}
+    .param-set-box .set-item{width:100%; margin:0; border-top:none;}
+    .param-set-box .item .lcs_wrap{ vertical-align: top; padding-right:30px;}
+</style>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>内页配置</h5>
+                </div>
+                <div class="ibox-content clearfix" style="padding-top:20px;">
+                    <div class="panel blank-panel">
+                        <div class="panel-options">
+                            <ul class="nav nav-tabs">
+                                <li {if $nav_menu eq 'inside'}class="active"{/if}><a href="{:url('website/inside')}">基本设置</a></li>
+                                <li {if $nav_menu eq 'sidebar'}class="active"{/if}><a href="{:url('sidebar/index')}">侧边栏设置</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    {include file="sidebar/global" /}
+                    <div class="col-sm-8">
+                        <form class="form-horizontal" name="add_module" id="add_module" method="post" action="{:url('index')}">
+                            <div class="form-group">
+                                <label class="col-sm-2" style="font-weight: 100; padding-left:20px; color:#ff6600;; font-size: 15px;">添加模块</label>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">标题：</label>
+                                <div class="input-group col-sm-4">
+                                    <input type="text" id="title" class="form-control" name="title" value="">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">显示"更多"：</label>
+                                <div class="col-sm-6 input-group">
+                                    <input type="checkbox" name="isMore" value="1" class="lcs_check" lcs-text="是|否" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">内容来源：</label>
+                                <div class="content-source">
+                                    <div class="col-sm-3 input-group">
+                                        <select class="form-control" name="cateId" id='cateId'>
+                                            <option value="">请选择栏目分类</option>
+                                            {volist name="cate" id="vo"}
+                                            <option value="{$vo.id}">{$vo.lefthtml}{$vo.name}</option>
+                                            {/volist}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">显示方式：</label>
+                                <div class="col-sm-9 input-group">
+                                    <div class="radio i-checks">
+                                        {volist name="module_style_param" id="vo"}
+                                        <input type="radio" name='module_style' value="{$key}" {if $key eq 1}checked{/if}/>{$vo.style}&nbsp;&nbsp;&nbsp;&nbsp;
+                                        {/volist}
+                                    </div>
+                                    <div class="param-set-box">
+                                        <div class="set-item set-item-1">
+                                            <input type="hidden" name="paramCnt[1]" value="4">
+                                            <div class="item clearfix">
+                                                <label class="item-label">显示个数</label>
+                                                <div class="con">
+                                                    <input type="text" class="text checknum" name='styleParam[1][0]' value="{$styleParam[1][0]}"/>
+                                                </div>
+                                            </div>
+                                            <div class="item clearfix">
+                                                <label class="item-label">图片尺寸</label>
+                                                <div class="con">
+                                                    <span>宽度</span><input type="text" class="text checknum img_wd" name='styleParam[1][1]' value="{$styleParam[1][1]}"/><b>px</b>
+                                                    <span>高度</span><input type="text" class="text checknum" name='styleParam[1][2]' value="{$styleParam[1][2]}"/><b>px</b>
+                                                </div>
+                                            </div>
+                                            <div class="item clearfix">
+                                                <label class="item-label">图片边框</label>
+                                                <div class="con">
+                                                    <input type="checkbox" name="styleParam[1][3]" value="1" class="lcs_check img_bd" lcs-text="显示|隐藏" autocomplete="off" {if $styleParam[1][3] eq 1}checked{/if}/>
+                                                </div>
+                                            </div>
+                                            <div class="item clearfix">
+                                                <label class="item-label">图片标题</label>
+                                                <div class="con">
+                                                    <input type="checkbox" name="styleParam[1][4]" value="1" class="lcs_check" lcs-text="显示|隐藏" autocomplete="off" {if $styleParam[1][4] eq 1}checked{/if}/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="set-item set-item-2 hidden-box">
+                                            <input type="hidden" name="paramCnt[2]" value="5">
+                                            <div class="item clearfix">
+                                                <label class="item-label">显示个数</label>
+                                                <div class="con"><input type="text" class="text checknum" name='styleParam[2][0]' value="{$styleParam[2][0]}"/></div>
+                                            </div>
+                                            <div class="item clearfix">
+                                                <label class="item-label">标题字数</label>
+                                                <div class="con">
+                                                    <input type="text" class="text checknum" name='styleParam[2][1]' value="{$styleParam[2][1]}"/>
+                                                    <em><i class="fa fa-info-circle"></i> 为0则全部显示</em>
+                                                </div>
+                                            </div>
+                                            <div class="item clearfix">
+                                                <label class="item-label">显示简介</label>
+                                                <div class="con">
+                                                    <input type="checkbox" name="styleParam[2][2]" value="1" class="lcs_check" lcs-text="是|否" autocomplete="off" {if $styleParam[2][2] eq 1}checked{/if}/>
+                                                    <span>简介字数</span><input type="text" class="text checknum" name='styleParam[2][3]' value="{$styleParam[2][3]}"/>
+                                                    <em><i class="fa fa-info-circle"></i> 为0则全部显示</em>
+                                                </div>
+                                            </div>
+                                            <div class="item clearfix">
+                                                <label class="item-label">显示左侧图片</label>
+                                                <div class="con">
+                                                    <input type="checkbox" name="styleParam[2][4]" value="1" class="lcs_check" lcs-text="是|否" autocomplete="off" {if $styleParam[2][4] eq 1}checked{/if}/>
+                                                    <span style="display:inline-block; line-height: 40px;">图片边框</span><input type="checkbox" name="styleParam[2][5]" value="1" class="lcs_check" lcs-text="显示|隐藏" autocomplete="off" {if $styleParam[2][5] eq 1}checked{/if}/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="set-item set-item-3 hidden-box">
+                                            <input type="hidden" name="paramCnt[3]" value="6">
+                                            <div class="item clearfix">
+                                                <label class="item-label">显示个数</label>
+                                                <div class="con"><input type="text" class="text checknum" name='styleParam[3][0]' value="{$styleParam[3][0]}"/></div>
+                                            </div>
+                                            <div class="item clearfix">
+                                                <label class="item-label">图片尺寸</label>
+                                                <div class="con">
+                                                    <span>宽度</span><input type="text" class="text checknum img_wd" name='styleParam[3][1]' value="{$styleParam[3][1]}"/><b>px</b>
+                                                    <span>高度</span><input type="text" class="text checknum" name='styleParam[3][2]' value="{$styleParam[3][2]}"/><b>px</b>
+                                                </div>
+                                            </div>
+                                            <div class="item clearfix">
+                                                <label class="item-label">图片标题</label>
+                                                <div class="con">
+                                                    <input type="checkbox" name="styleParam[3][3]" value="1" class="lcs_check" lcs-text="显示|隐藏" autocomplete="off" {if $styleParam[3][3] eq 1}checked{/if}/>
+                                                </div>
+                                            </div>
+                                            <div class="item clearfix">
+                                                <label class="item-label">自动切换</label>
+                                                <div class="con"><input type="checkbox" name="styleParam[3][4]" value="1" class="lcs_check" lcs-text="是|否" autocomplete="off" {if $styleParam[3][4] eq 1}checked{/if}/></div>
+                                            </div>
+                                            <div class="item clearfix">
+                                                <label class="item-label">切换效果</label>
+                                                <div class="con">
+                                                    <div class="radio i-checks">
+                                                        <input type="radio" name='styleParam[3][5]' value="leftLoop" {if $styleParam[3][5] eq 'leftLoop'}checked{/if}/>向左滑动&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <input type="radio" name='styleParam[3][5]' value="fold" {if $styleParam[3][5] eq 'fold'}checked{/if}/>柔和渐变&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <input type="radio" name='styleParam[3][5]' value="fade" {if $styleParam[3][5] eq 'fade'}checked{/if}/>淡入淡出
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="item clearfix">
+                                                <label class="item-label">显示左右按钮</label>
+                                                <div class="con"><input type="checkbox" name="styleParam[3][6]" value="1" class="lcs_check" lcs-text="是|否" autocomplete="off" {if $styleParam[3][6] eq 1}checked{/if}/></div>
+                                            </div>
+                                        </div>
+                                        <div class="set-item set-item-4 hidden-box">
+                                            <script src="/static/admin/ueditor/ueditor.config.js" type="text/javascript"></script>
+                                            <script src="/static/admin/ueditor/ueditor.all.js" type="text/javascript"></script>
+                                            <textarea name="styleParam[4]" style="width:100%" id="myEditor"></textarea>
+                                            <script type="text/javascript">
+                                                UE.getEditor('myEditor', {
+                                                    autoHeightEnabled: true,
+                                                    autoFloatEnabled: true,
+                                                    initialFrameHeight:200
+                                                });
+                                            </script>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">状&nbsp;态：</label>
+                                <div class="col-sm-6 input-group">
+                                    <input type="checkbox" name="status" value="1" class="lcs_check" lcs-text="开启|关闭" autocomplete="off" checked/>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2 button-group">
+                                    <button class="btn btn-warning" type="submit" style="padding:6px 30px;"><i class="fa fa-save"></i> 保存</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+{include file="sidebar/global_js" /}
+<script type="text/javascript">
+    $('input[name="module_style"]').on('ifChecked', function(event){
+        var val = $(this).val();
+        var item = $('.param-set-box .set-item-'+val);
+        item.show();
+        item.siblings().hide();
+    });
+
+    $(function(){
+        $('#add_module').ajaxForm({
+            beforeSubmit: checkForm, 
+            success: complete, 
+            dataType: 'json'
+        });
+        
+        function checkForm() {
+            if ('' == $.trim($('#title').val())) {
+                layer.msg('请输入标题', {icon: 2, time: 1500, shade: 0.1}, function (index) {
+                    layer.close(index);
+                });
+                return false;
+            }
+
+            var result = true;
+            var module_style = $('input[name="module_style"]:checked').val();
+
+            if(module_style != 4 && $('#cateId').val() == ''){
+                layer.msg('请选择内容来源', {icon: 5, time: 1500, shade: 0.1}, function (index) {
+                    layer.close(index);
+                });
+                return false;
+            }
+
+            $('.set-item-'+ module_style +' .checknum').each(function(){
+                val = $(this).val();
+                if(!isPositiveNum(val)){
+                    layer.msg('请输入合法的显示方式设置参数', {icon: 5,time:1500,shade: 0.1}, function(index){
+                        layer.close(index);
+                    });
+                    result = false;
+                    return false;
+                }
+            });
+            if(!result){
+                return false;
+            }
+
+            if(module_style == 1 || module_style == 3){
+                $max_width = 268;
+                if(module_style == 1 && $(".img_bd").is(':checked'))  $max_width = 266;
+                if($('.set-item-'+ module_style +' .img_wd').val() > $max_width){
+                    layer.msg('图片宽度不能大于'+$max_width+'px', {icon: 5, time: 1500, shade: 0.1}, function (index) {
+                        layer.close(index);
+                    });
+                    return false;
+                }
+            }
+        }
+
+        function complete(data){
+            if(data.code==1){
+                layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                    window.location.href='{:url("sidebar/edit_module")}?id='+data.data;
+                });
+            }else{
+                layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1});
+                return false;   
+            }
+        }
+     
+    });
+</script>
+</body>
+</html>

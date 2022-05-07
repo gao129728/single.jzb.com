@@ -1,0 +1,43 @@
+<script src="__JS__/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+<script type="text/javascript">
+    $("[data-toggle='tooltip']").tooltip();
+    $( "#sortable" ).sortable({
+        stop: function (event, ui) {
+            update_module_order();
+        }
+    });
+    //删除模块
+    function del_module(id){
+        layer.confirm('确认删除此模块?', {icon: 3, title:'提示'}, function(index){
+            $.getJSON('{:url("del_module")}', {'id':id}, function(res){
+                if(res.code == 1){
+                    layer.msg(res.msg,{icon:1,time:2000,shade: 0.1},function(){
+                        layer.close(index);
+                        window.location.href='{:url("wapmodule/index")}'
+                    });
+                }else{
+                    layer.msg(res.msg,{icon:0,time:1500,shade: 0.1});
+                    return false;
+                }
+            });
+            layer.close(index);
+        })
+    }
+    //设置模块状态
+    function show_module(id, obj){
+        $.getJSON('{:url("state_module")}', {'id':id}, function(res){
+            if(res.code == 1){
+                $(obj).find('i').removeClass('fa-eye').addClass('fa-eye-slash').attr('title','不显示').attr('data-original-title','不显示');
+                $(obj).find('.tooltip-inner').text('不显示');
+            }else if(res.code == 2){
+                $(obj).find('i').removeClass('fa-eye-slash').addClass('fa-eye').attr('title','显示').attr('data-original-title','显示');
+                $(obj).find('.tooltip-inner').text('显示');
+            }
+        });
+    }
+
+    function update_module_order(){
+        $("#update_order").ajaxSubmit();
+    }
+</script>

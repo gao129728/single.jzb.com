@@ -1,0 +1,57 @@
+<div class="art-box" style="border:none;">
+    <h2>{$article.title}</h2>
+</div>
+{if $product_img}
+<div class="Pro_focus" id="Pro_focus">
+    <a href="javascript:;" class="prev iconfont icon-xiangzuo02"></a>
+    <div class="bd">
+        <ul>
+            {volist name="product_img" id="vo"}
+            <li><img src="__UPLOAD_PATH__/{$vo.photo}" alt="{$vo.title}"/></li>
+            {/volist}
+        </ul>
+    </div>
+    <a href="javascript:;" class="next iconfont icon-xiangyou02"></a>
+</div>
+<script type="text/javascript">
+    TouchSlide({
+        slideCell:"#Pro_focus",
+        mainCell:".bd ul",
+        effect:"left",
+        autoPlay:true,
+        switchLoad:"_src"
+    });
+</script>
+{/if}
+<div class="pro_info">
+    <h3>产品参数</h3>
+    <div class="article_content">
+        {$article.intro}
+    </div>
+</div>
+<div class="pro_info">
+    <h3>产品简介</h3>
+    <div class="article_content">
+        {$article.content}
+    </div>
+</div>
+<div class="pro_info">
+    <h3>相关产品</h3>
+    <div class="relevant_product">
+        <ul class="clearfix">
+            {volist name="relevant_article" id="item"}
+            <li>
+                <div class="pic">
+                    <a href="{$item.url}"><img src="__UPLOAD_PATH__/{$item.photo}" alt="{$item.title}"/></a>
+                </div>
+                <p class="tit"><a href="{$item.url}" title="{$item.title}">{$item.title}</a></p>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+    <script type="text/javascript">
+        window.onload=function(){
+            setPicHeight(".relevant_product .pic");
+        }
+    </script>
+</div>

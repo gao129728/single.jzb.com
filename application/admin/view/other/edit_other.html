@@ -1,0 +1,142 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<link rel="stylesheet" type="text/css" href="/static/admin/webUploader/css/webuploader.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/webUploader/css/style.css" />
+<div class="wrapper wrapper-content animated fadeInRight" style="overflow-y:auto;">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <div class="ibox-title-goback">
+                        <a href="{$backUrl}"><i class="fa fa-reply"></i> 返回</a>
+                    </div>
+                    <h5>编辑{$cate.name}</h5>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" name="edit" id="edit" method="post" action="edit_other">
+                        <input type="hidden" name="id" value="{$other.id}">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">标题：</label>
+                            <div class="input-group col-sm-4">
+                                <input id="title" type="text" class="form-control" name="title" value="{$other.title}">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">序号：</label>
+                            <div class="input-group col-sm-4">
+                                <input id="sortnum" type="text" class="form-control input_wd1" name="sortnum" placeholder="输入序号" value="{$other.sortnum}">
+                            </div>
+                        </div>
+                        {in name="1" value="$cate['rules']"}
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">缩略图：</label>
+                            <div class="input-group col-sm-4">
+                                <div class="uploadImg-box">
+                                    <input type="file" name="photo" id="photo" class="imgFile" onchange="previewImage(this)"/>
+                                    <div class="up-img {if $other.photo neq ''}hidden-box{/if}"><i class="fa fa-cloud-upload"></i><p>点击上传图片</p></div>
+                                    {if $other.photo neq ''}
+                                    <input type="checkbox" name="delPhoto" class="input-del" value="1" />
+                                    <div class="imgView"><img src="__UPLOAD_PATH__/{$other.photo}"/></div>
+                                    {/if}
+                                    <div class="uploadCover">
+                                        <div class="ulinfo clearfix">
+                                            <span class="up-btn"><i class="fa fa-cloud-upload"></i></span>
+                                            <span class="up-del"><i class="fa fa-close"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {/in}
+                        {in name="2" value="$cate['rules']"}
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">链接地址：</label>
+                            <div class="input-group col-sm-4">
+                                <input id="url" type="text" class="form-control" name="url" placeholder="请输入连接地址" value="{$other.url}">
+                                <span class="help-question"><a data-toggle="tooltip" data-placement="auto right" title="输入完整的连接地址，包含http://"><i class="fa fa-question-circle-o"></i></a></span>
+                            </div>
+                        </div>
+                        {/in}
+                        {in name="3" value="$cate['rules']"}
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">链接栏目：</label>
+                            <div class="input-group col-sm-2">
+                                <select class="form-control" name="cateId">
+                                    <option value="">请选择栏目分类</option>
+                                    {volist name="article_cate" id="vo"}
+                                    <option value="{$vo.id}" {if $other.cateId eq $vo.id}selected{/if}>{$vo.lefthtml}{$vo.name}</option>
+                                    {/volist}
+                                </select>
+                                <span class="help-question"><a data-toggle="tooltip" data-placement="auto right" title="链接到所选栏目分类"><i class="fa fa-question-circle-o"></i></a></span>
+                            </div>
+                        </div>
+                        {/in}
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">状&nbsp;态：</label>
+                            <div class="col-sm-6 input-group">
+                                <input type="checkbox" name="status" value="1" class="lcs_check" lcs-text="开启|关闭" autocomplete="off" {if $other.status eq 1}checked{/if}/>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2 button-group">
+                                <button class="btn btn-warning" type="submit"><i class="fa fa-save"></i> 保存</button>&nbsp;&nbsp;&nbsp;
+                                <a class="btn btn-danger" href="{$backUrl}"><i class="fa fa-close"></i> 返回</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script type="text/javascript">
+    $(function(){
+        $('#edit').ajaxForm({
+            beforeSubmit: checkForm, // 此方法主要是提交前执行的方法，根据需要设置
+            success: complete, // 这是提交后的方法
+            dataType: 'json'
+        });
+
+        function checkForm(){
+            if( '' == $.trim($('#title').val())){
+                layer.msg('标题不能为空', {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+
+            if ($.trim($('#sortnum').val()) == '' || $.trim($('#sortnum').val()).match(/\D/))
+            {
+                layer.msg('请输入合法的序号', {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+
+        }
+
+        function complete(data){
+            if(data.code == 1){
+                layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                    window.location.href="{$backUrl}";
+                });
+            }else{
+                layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+        }
+
+    });
+</script>
+</body>
+</html>

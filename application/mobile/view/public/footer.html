@@ -1,0 +1,109 @@
+<div class="hotline clearfix">
+    <div class="lef">
+        <h3>免费咨询热线</h3>
+        <p>专业客服为您解疑答惑</p>
+    </div>
+    <div class="rig">
+        <a href="tel:{$config.service_line}"> <i class="iconfont icon-service-phone"></i> {$config.service_line}</a>
+    </div>
+</div>
+<footer class="footer footer1">
+    {$config.wap_site_copy}
+</footer>
+{if $config.wap_nav_style eq 1}
+<div class="fixBox">
+    <ul class="clearfix">
+        <li><a href="{:url('mobile/index/index')}"><i class="iconfont icon-weibiaoti1"></i></a></li>
+        <li><a href="tel:{$config.service_line}"><i class="iconfont icon-dianhua1"></i></a></li>
+        <li><a href="sms:{$config.wap_service_qq}"><i class="iconfont icon-mess"></i></a></li>
+    </ul>
+</div>
+{elseif $config.wap_nav_style eq 2/}
+<!--fixnav-->
+<div class="fixnav">
+    <ul>
+        <li {if $navCur eq 'index'}class="on"{/if}><a href="{:url('mobile/index/index')}">首页</a></li>
+        {volist name="nav_cate" id="nav"}
+        <li {if $navCur eq $nav.cateId}class="on"{/if}><a href="{$nav.url}">{$nav.name}</a></li>
+        {/volist}
+    </ul>
+    <div class="menuBtn">
+    	<i class="iconfont icon-down"></i>
+    </div>
+</div>
+<div class="fixBox1">
+    <ul class="clearfix">
+    	<li {if $navCur eq 'index'}class="on"{/if}>
+    		<a href="{:url('mobile/index/index')}">
+    			<i class="iconfont icon-icohome"></i>
+    			<p>首页</p>
+    		</a>
+    	</li>
+    	<li>
+    		<a href="tel:{$config.service_line}">
+    			<i class="iconfont icon-dianhua2"></i>
+    			<p>电话</p>
+    		</a>
+    	</li>
+    	<li class="center">
+    		<a href="javascript:;">
+    			<i class="iconfont icon-plus"></i>
+    		</a>
+    	</li>
+    	<li {if $navCur eq 'message'}class="on"{/if}>
+    		<a href="{:url('mobile/message/index')}">
+    			<i class="iconfont icon-lyan"></i>
+    			<p>留言</p>
+    		</a>
+    	</li>
+    	<li>
+    		<a href="sms:{$config.wap_service_qq}">
+    			<i class="iconfont icon-mess"></i>
+    			<p>短信</p>
+    		</a>
+    	</li>
+    </ul>
+</div> 
+<script type="text/javascript">
+	$(".fixBox1 li.center").click(function(){
+		if($(".fixnav").css('display')=='none'){
+			$(".fixnav").slideDown();
+		}else{
+			$(".fixnav").slideUp();
+		}
+		
+	});
+	$(".menuBtn .icon-down").click(function(){
+		$(".fixnav").slideUp();
+	})
+</script>
+{elseif $config.wap_nav_style eq 3/}
+<div class="fixBox2">
+	<ul class="clearfix">
+		<li {if $navCur eq 'index'}class="on"{/if}>
+		<a href="{:url('mobile/index/index')}">
+			<i class="iconfont icon-icohome"></i>
+			<p>首页</p>
+		</a>
+		</li>
+		<li>
+			<a href="tel:{$config.service_line}">
+				<i class="iconfont icon-dianhua2"></i>
+				<p>电话</p>
+			</a>
+		</li>
+		<li {if $navCur eq 'message'}class="on"{/if}>
+		<a href="{:url('mobile/message/index')}">
+			<i class="iconfont icon-lyan"></i>
+			<p>留言</p>
+		</a>
+		</li>
+		<li>
+			<a href="sms:{$config.wap_service_qq}">
+				<i class="iconfont icon-mess"></i>
+				<p>短信</p>
+			</a>
+		</li>
+	</ul>
+</div>
+{/if}

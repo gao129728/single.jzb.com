@@ -1,0 +1,22 @@
+<!Doctype html>
+<html>
+{include file="public/head" /}
+<body>
+<div class="homebody">
+	{include file="public/header" /}
+    <!--主要内容-->
+	{include file="public/sub_menu" /}
+	<section class="MainCon">
+		{switch name="cate.infoStyle"}
+		{case value="0"}{include file="detail-module/module_0" /}{/case}
+		{case value="1"}{include file="detail-module/module_1" /}{/case}
+		{default /}模板文件不存在
+		{/switch}
+	</section>
+	{include file="public/footer" /}
+</div>	
+<!--导航-->
+{include file="public/nav" /}
+
+</body>
+</html>

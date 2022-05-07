@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+{include file="public/head" /}
+<body>
+<!--头部-->
+{include file="public/header" /}
+<!--主要内容-->
+<div class="MainCon inside-container">
+	<div class="box-wrap">
+		<div class="breadcrumbs">
+			您现在的位置：<a href="{:url('home/index/index')}">首页</a> > {$base_name} > {$keyword}
+		</div>
+		<div class="inside-box clearfix">
+			<div class="centerCon">
+				{if $count gt 0}
+				<h4 class="search_cnt_txt">共查询到<span>{$count}</span>条相关信息</h4>
+				<div class="search_list">
+					{volist name="search_list" id="item"}
+					<div class="list-item clearfix">
+						{if $item.photo neq ''}
+						<div class="pic">
+							<a href="{$item.url}" {if $item.website neq ''}target="_blank"{/if}><img src="__UPLOAD_PATH__/{$item.photo}" width="{$cateParam[3]}" height="{$cateParam[4]}" alt="{$item.title}" {if $cateParam[5]}class="imgBd"{/if} /></a>
+						</div>
+						{/if}
+						<div class="txt">
+							<h4><a href="{$item.url}" title="{$item.title}" {if $item.website neq ''}target="_blank"{/if}>{$item.k_title}</a></h4>
+							<div class="info">{$item.content}</div>
+							<div class="i"><i class="iconfont icon-shijian"></i>发表时间：{$item.create_time|date="Y-m-d",###} <span><i class="iconfont icon-liulan"></i>浏览次数： {$item.views}</span></div>
+						</div>
+					</div>
+					{/volist}
+				</div>
+				<div class="page">{$search_list->render()}</div>
+				{else/}
+				<div class="no-msg-tip">
+					<img src="__IMG__/no-msg-img.png" />
+					<p>暂无信息</p>
+				</div>
+				{/if}
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--底部-->
+{include file="public/footer" /}
+{include file="public/onlineqq" /}
+
+</body>
+</html>

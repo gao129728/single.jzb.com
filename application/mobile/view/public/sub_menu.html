@@ -1,0 +1,74 @@
+<div class="sub_menu">
+    <script type="text/javascript" src="__JS__/flexible.js"></script>
+    <script type="text/javascript" src="__JS__/iscroll.js"></script>
+    <script type="text/javascript" src="__JS__/navbarscroll.js"></script>
+    {if $config.wap_nav_style eq 3/}
+    <div class="sub_menu_4">
+        <div class="more_nav_box">
+            <ul class="clearfix">
+                {volist name="second_menu" id="second"}
+                {if $i%2 eq 1}<li class="secondLi clearfix">{/if}
+                <a href="{$second.url}" {if $second.isCurrent eq 1}class="on" {/if}><b></b>{$second.name}</a>
+                {if $i%2 eq 0 or $i eq $secondMenuCnt}</li> {/if}
+                {/volist}
+            </ul>
+        </div>
+    </div>
+    {else /}
+    <div class="sub_menu_1" id="wrapper01">
+        <div class="scroller">
+            <ul class="clearfix">
+                {volist name="second_menu" id="second"}
+                <li><a href="{$second.url}" {if $second.isCurrent eq 1}class="on"{/if}>{$second.name}</a></li>
+                {/volist}
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            var second_select = $('.sub_menu_1 li .on').parent().index();
+            $('#wrapper01').navbarscroll({
+                defaultSelect:second_select
+            });
+        });
+    </script>
+    {/if}
+    {if $third_menu neq ''}
+    <div class="sub_menu_2" id="wrapper02">
+        <div class="scroller">
+            <ul class="clearfix">
+                {volist name="$third_menu" id="third"}
+                <li><a href="{$third.url}" {if $third.isCurrent eq 1}class="on"{/if}>{$third.name}</a></li>
+                {/volist}
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            var third_select = $('.sub_menu_2 li .on').parent().index();
+            $('#wrapper02').navbarscroll({
+                defaultSelect:third_select
+            });
+        });
+    </script>
+    {/if}
+    {if $four_menu neq ''}
+    <div class="sub_menu_3" id="wrapper03">
+        <div class="scroller">
+            <ul class="clearfix">
+                {volist name="$four_menu" id="four"}
+                <li><a href="{$four.url}" {if $four.isCurrent eq 1}class="on"{/if}>{$four.name}</a></li>
+                {/volist}
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            var four_select = $('.sub_menu_3 li .on').parent().index();
+            $('#wrapper03').navbarscroll({
+                defaultSelect:four_select
+            });
+        });
+    </script>
+    {/if}
+</div>

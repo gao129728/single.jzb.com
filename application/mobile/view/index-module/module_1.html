@@ -1,0 +1,68 @@
+{if $module.titleStyle eq 2/}
+    <div class="pic-list-panel clearfix">
+        <div class="bd">
+            {volist name="module['cate_article_list']" id="tab_cate_name"}
+            <ul class="clearfix">
+                {volist name="tab_cate_name['art_list']" id="listPic"}
+                <li style="width:{php}echo 100/$module['moduleParam'][1]-2;{/php}%">
+                    <p class="pic {if $module.moduleParam[2]}imgBd{/if}"><a href="{$listPic.url}" target="_blank" title="{$listPic.title}"><img src="__UPLOAD_PATH__/{$listPic.photo}" alt="{$listPic.title}"></a></p>
+                    {if $module.moduleParam[3]}
+                    <p class="tit"><a href="{$listPic.url}" target="_blank" title="{$listPic.title}">{$listPic.title|leftstr=$module.moduleParam[4]}</a></p>
+                    {/if}
+                </li>
+                {/volist}
+            </ul>
+            {/volist}
+        </div>
+    </div>
+{else/}
+<div class="pic-list-panel clearfix">
+    <div class="bd">
+    {if $module.moduleParam[5] eq 0}<ul class="clearfix">{/if}
+        {volist name="module['art_list']" id="listPic"}
+            {if $module.moduleParam[5] eq 1 and ($module['moduleParam'][6] eq 1 or $i%$module['moduleParam'][6] eq 1)}<ul class="clearfix">{/if}
+            <li style="width:{php}echo 100/$module['moduleParam'][1]-2;{/php}%">
+                <p class="pic {if $module.moduleParam[2]}imgBd{/if}"><a href="{$listPic.url}" title="{$listPic.title}"><img src="__UPLOAD_PATH__/{$listPic.photo}" alt="{$listPic.title}"></a></p>
+                {if $module.moduleParam[3]}
+                <p class="tit"><a href="{$listPic.url}" title="{$listPic.title}">{$listPic.title|leftstr=$module.moduleParam[4]}</a></p>
+                {/if}
+            </li>
+            {if $module.moduleParam[5] eq 1 and ($module['moduleParam'][6] eq 1 or $i%$module['moduleParam'][6] eq 0 or $i eq $module.art_list_cnt)}</ul>{/if}
+        {/volist}
+    {if $module.moduleParam[5] eq 0}</ul>{/if}
+    </div>
+    {if $module.moduleParam[7] eq 1}
+    <div class="panel-list-tit">
+        <ul></ul>
+    </div>
+    {/if}
+</div>
+{/if}
+<script type="text/javascript">
+    window.onload=function(){
+        setPicHeight("#index-module-{$ml} .pic-list-panel .pic");  //设置图片尺寸
+    };
+    {if $module.titleStyle eq 2}
+        TouchSlide({
+            slideCell:"#index-module-{$ml}",
+            mainCell:".pic-list-panel .bd",
+            titCell:".area-hd-2 .hd li",
+            autoPage:false,
+            autoPlay:false,
+            effect:"leftLoop",
+            switchLoad:"_src"
+        });
+    {elseif $module.moduleParam[5] eq 1/}
+        TouchSlide({
+            slideCell:"#index-module-{$ml}",
+            mainCell:".pic-list-panel .bd",
+            {if $module.moduleParam[7] eq 1}
+            titCell:".panel-list-tit ul",
+            autoPage:true,
+            {/if}
+            autoPlay:true,
+            effect:"leftLoop",
+            switchLoad:"_src"
+        });
+    {/if}
+</script>

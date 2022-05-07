@@ -1,0 +1,31 @@
+<div class="col-sm-4">
+    <form name="update_order" id="update_order" method="post" action="{:url('update_order')}">
+        <div class="file-manager" style="overflow:hidden; overflow-y:auto;">
+            <div class="homefa"><i class="fa fa-reorder"></i>首页结构示意图</div>
+            <ul id="sortable" class="Ulsort">
+                {volist name="module_list" id="item"}
+                <li class="ui-state {if $module_id eq $item.id}active{/if}">
+                    <input type="hidden" name="mo_id[]" value="{$item.id}">
+                    <div class="ui-state-box">
+                        <span class="fa fa-arrows" data-toggle="tooltip" title="拖拽我"></span>
+                        <span>{$item.title}</span>
+                        <span class="pull-right"><i class="chevron fa fa-chevron-right"></i></span>
+                        <i class="fa fa-caret-right"></i>
+                    </div>
+                    <span class="handle-btn">
+                        <a href="javascript:;" onclick="show_module({$item.id},this)"><i class="fa {$item.status? 'fa-eye':'fa-eye-slash'}" data-toggle="tooltip" title="{$item.status? '显示':'不显示'}"></i></a>
+                        <a href="{:url('appletmodule/edit_module',['id'=>$item.id])}"><i class="fa fa-pencil" data-toggle="tooltip" title="编辑"></i></a>
+                        <a href="javascript:;" onclick="del_module({$item.id})"><i class="fa fa-trash-o" data-toggle="tooltip" title="删除"></i></a>
+                    </span>
+                </li>
+                {/volist}
+            </ul>
+            <div class="add_module">
+                <a href="{:url('index')}">
+                    <i class="fa fa-plus"></i>
+                    添加首页模块
+                </a>
+            </div>
+        </div>
+    </form>
+</div>

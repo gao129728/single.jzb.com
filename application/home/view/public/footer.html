@@ -1,0 +1,45 @@
+<!--底部-->
+<div class="footer">
+    <div class="foot-bottom">
+        <div class="box-wrap">
+            {if $friend_link_show eq 1}
+            <div class="friend_link clearfix">
+                <em>友情链接：</em>
+                {volist name="friend_link" id="vo"}
+                <a href="{$vo.url}" target="_blank">{$vo.title}</a>
+                {/volist}
+            </div>
+            {/if}
+            <div class="foot-extra clearfix">
+                <div class="ft-contact">
+                    {$config.web_site_contact}
+                </div>
+                <div class="ft-qrcode clearfix">
+                    {if $config.web_site_qrcode}
+                    <div class="omg">
+                        <img alt="微信公众号" src="__UPLOAD_PATH__/{$config.web_site_qrcode}">
+                        <p>微信公众号</p>
+                    </div>
+                    {/if}
+                    {if $wap_site_state eq 1 and $wap_site_qrcode}
+                    <div class="omg">
+                        <img alt="手机版" src="__UPLOAD_PATH__/{$wap_site_qrcode}">
+                        <p>手机版</p>
+                    </div>
+                    {/if}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copyright">
+        <div class="box-wrap">
+            {$config.web_site_copy}
+        </div>
+    </div>
+</div>
+{if $adverList neq ''}
+<script type="text/javascript" src="__JS__/adver.js"></script>
+{volist name="adverList" id="adver"}
+<script type="text/javascript">AdPrepare('{$adver.id}','{$adver.link_url}','{$adver.mode}','__UPLOAD_PATH__/{$adver.photo}',{$adver.width},{$adver.height},{$adver.asidetop},{$adver.asideleft},{$adver.closed},{$adver.screen_time});</script>
+{/volist}
+{/if}

@@ -1,0 +1,25 @@
+<div class="menuBg"></div>
+<div class="menuNav">
+    <h5>MENU</h5>
+    <ul>
+        <li {if $navCur eq 'index'}class="on"{/if}><a href="{:url('mobile/index/index')}">首页</a></li>
+        {volist name="nav_cate" id="nav"}
+        <li {if $navCur eq $nav.cateId}class="on"{/if}><a href="{$nav.url}">{$nav.name}</a></li>
+        {/volist}
+    </ul>
+</div>
+<script type="text/javascript">
+    TouchSlide({ slideCell:"#leftTabBox" });
+    TouchSlide({ slideCell:"#newsTab" });
+    $(".header .menu").click(function(){
+        $(".menuNav").addClass('menuOn');
+        $(".menuBg").addClass('menuOn');
+        $(".homebody").addClass('bodyOn');
+    });
+    $(".menuBg").click(function(){
+        $(".menuNav").removeClass('menuOn');
+        $(".menuBg").removeClass('menuOn');
+        $(".homebody").removeClass('bodyOn');
+    })
+</script>
+

@@ -1,0 +1,36 @@
+{if $lists}
+<div class="picList">
+    <ul class="clearfix">
+        {volist name="lists" id="item"}
+        <li style="width:{php}echo 100/$cateParam[1]-2;{/php}%">
+            <div class="pic {if $cateParam[3]}imgBd{/if}">
+                {if $item.photo neq ''}
+                <a href="{$item.url}"><img src="__UPLOAD_PATH__/{$item.photo}" alt="{$item.title}" /></a>
+                {else/}
+                <div class="noPic-box">
+                    <div class="img"><i class="iconfont icon-tupian"></i><p>暂无图片</p></div>
+                </div>
+                {/if}
+            </div>
+            <p class="tit"><a href="{$item.url}" title="{$item.title}">{$item.title|leftstr=$cateParam[2]}</a></p>
+            {if $cateParam[4]}
+            <div class="info">{$item.content|leftstr_html=$cateParam[5]}</div>
+            {/if}
+        </li>
+        {/volist}
+    </ul>
+</div>
+<script type="text/javascript">
+    window.onload=function(){
+        setPicHeight(".picList .pic");  //设置图片尺寸
+        var img_ht = $('.picList .pic img').height();
+        $('.noPic-box').height(img_ht);
+    }
+</script>
+<div class="page">{$lists->render()}</div>
+{else/}
+<div class="no-msg-tip">
+    <img src="__IMG__/no-msg-img.png" />
+    <p>暂无信息</p>
+</div>
+{/if}

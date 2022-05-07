@@ -1,0 +1,231 @@
+<div class="article_content">
+    {$lists.content}
+</div>
+<script src="__JS__/jquery.form.js"></script>
+{if $cateParam eq 0}
+<div class="form-area">
+    <form action="{:url('mobile/form/message')}" method="post" id="message">
+        <ul>
+            <li class="clearfix">
+                <span><em>*</em>姓名：</span>
+                <input name="name" type="text" maxlength="50" class="text"/>
+            </li>
+            <li class="clearfix">
+                <span><em>*</em>电话：</span>
+                <input name="phone" type="text" maxlength="50" class="text"/>
+            </li>
+            <li class="clearfix">
+                <span>邮箱：</span>
+                <input name="email" type="text" maxlength="50" class="text" />
+            </li>
+            <li class="clearfix">
+                <span>留言：</span>
+                <textarea name="content" class="textarea"></textarea>
+            </li>
+            <li class="clearfix yzm">
+                <span>验证码：</span>
+                <input name="code" type="text" maxlength="4" class="text" />
+                <img src="{:url('form/code_img')}" class="codeImg" onclick="this.src='{:url(\'form/code_img\')}?time='+Math.random();" alt="看不清,请单击"/>
+            </li>
+            <li class="clearfix input-btn">
+                <input type="submit" value="提交" class="submitBtn" />
+                <input type="reset" value="重置" class="resetBtn" />
+            </li>
+        </ul>
+    </form>
+</div>
+<script type="text/javascript">
+    $('#message')[0].reset();
+    $(function(){
+        $('#message').ajaxForm({
+            success: complete,
+            dataType: 'json'
+        });
+        function complete(data){
+            if(data.code == 1){
+                layer.open({content: data.msg, btn:'确定', yes:function(index){
+                        layer.close(index);
+                        $('#message')[0].reset();
+                        location.reload();
+                    }
+                });
+            }else{
+                layer.open({content: data.msg, time: 2 });
+                return false;
+            }
+        }
+    });
+</script>
+{elseif $cateParam eq 1 /}
+<link href="__JS__/iCheck/custom.css" rel="stylesheet" type="text/css" />
+<script src="__JS__/iCheck/icheck.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $(".i-checks").iCheck({radioClass:"iradio_square-green"});
+    });
+</script>
+<div class="form-area">
+    <h3>在线应聘</h3>
+    <form action="{:url('mobile/form/job')}" method="post" id="job">
+        <input type="hidden" name="cateId" value="{$cate.id}">
+        <ul class="clearfix">
+            <li class="clearfix">
+                <span><em>*</em>姓名：</span>
+                <input name="name" type="text" maxlength="50" class="text"/>
+            </li>
+            <li class="clearfix">
+                <span><em>*</em>电话：</span>
+                <input name="phone" type="text" maxlength="50" class="text"/>
+            </li>
+            <li class="clearfix">
+                <span>邮箱：</span>
+                <input name="email" type="text" maxlength="50" class="text"/>
+            </li>
+            <li class="clearfix">
+                <span>性别：</span>
+                <div class="sex_box">
+                    <div class="sex-sel on">
+                        <input type="radio" name="sex" value="男" checked />
+                        男性
+                    </div>
+                    <div class="sex-sel">
+                        <input type="radio" name="sex" value="女" />
+                        女性
+                    </div>
+                </div>
+            </li>
+            <li class="clearfix">
+                <span>年龄：</span>
+                <input name="age" type="text"  maxlength="2" class="text" />
+            </li>
+            <li class="clearfix">
+                <span>毕业院校：</span>
+                <input name="college" type="text" class="text"/>
+            </li>
+            <li class="clearfix">
+                <span>毕业时间：</span>
+                <input name="graduate_time" type="text"  class="text"/>
+            </li>
+            <li class="clearfix">
+                <span>个人履历：</span>
+                <textarea name="resumes" class="textarea wd1"></textarea>
+            </li>
+            <li class="clearfix">
+                <span>自我评价：</span>
+                <textarea name="appraise" class="textarea wd1"></textarea>
+            </li>
+            <li class="clearfix yzm">
+                <span>验证码：</span>
+                <input name="code" type="text" maxlength="4" class="text" />
+                <img src="{:url('form/code_img')}" class="codeImg" onclick="this.src='{:url(\'form/code_img\')}?time='+Math.random();" alt="看不清,请单击"/>
+            </li>
+            <li class="clearfix input-btn">
+                <input type="submit" value="提交" class="submitBtn" />
+                <input type="reset" value="重置" class="resetBtn" />
+            </li>
+        </ul>
+    </form>
+</div>
+<script type="text/javascript">
+    $('#job')[0].reset();
+    $(".sex_box .sex-sel").click(function(){
+        $(this).addClass('on').siblings().removeClass('on');
+        $(this).find('input').prop('checked', true);
+        $(this).siblings().find('input').prop('checked', false);
+    });
+    $(function(){
+        $('#job').ajaxForm({
+            success: complete,
+            dataType: 'json'
+        });
+        function complete(data){
+            if(data.code == 1){
+                layer.open({content: data.msg, btn:'确定', yes:function(index){
+                        layer.close(index);
+                        $('#job')[0].reset();
+                        location.reload();
+                    }
+                });
+            }else{
+                layer.open({content: data.msg, time: 2 });
+                return false;
+            }
+        }
+    });
+</script>
+{elseif $cateParam eq 2 /}
+<div class="form-area">
+    <form action="{:url('mobile/form/apply')}" method="post" id="apply">
+        <ul>
+            <li class="clearfix">
+                <span><em>*</em>姓名：</span>
+                <input name="name" type="text" maxlength="50" class="text"/>
+            </li>
+            <li class="clearfix">
+                <span><em>*</em>电话：</span>
+                <input name="phone" type="text" maxlength="50" class="text"/>
+            </li>
+            <li class="clearfix">
+                <span><em>*</em>所在地区：</span>
+                <input name="area" id="area" type="text" readonly="readonly" class="text"/>
+            </li>
+            <li class="clearfix">
+                <span>详细地址：</span>
+                <input name="address" type="text" class="text"/>
+            </li>
+            <li class="clearfix">
+                <span>邮箱：</span>
+                <input name="email" type="text" maxlength="50" class="text" />
+            </li>
+            <li class="clearfix">
+                <span>留言：</span>
+                <textarea name="content" class="textarea"></textarea>
+            </li>
+            <li class="clearfix yzm">
+                <span>验证码：</span>
+                <input name="code" type="text" size="8" maxlength="4" class="text" />
+                <img src="{:url('form/code_img')}" class="codeImg" onclick="this.src='{:url(\'form/code_img\')}?time='+Math.random();" alt="看不清,请单击"/>
+            </li>
+            <li class="clearfix input-btn">
+                <input type="submit" value="提交" class="submitBtn" />
+                <input type="reset" value="重置" class="resetBtn" />
+            </li>
+        </ul>
+    </form>
+</div>
+<link rel="stylesheet" href="__JS__/LArea/LArea.min.css">
+<script src="__JS__/LArea/LAreaData1.js"></script>
+<script src="__JS__/LArea/LArea.min.js"></script>
+<script type="text/javascript">
+    $('#apply')[0].reset();
+    var area1 = new LArea();
+    area1.init({
+        'trigger': '#area', //触发选择控件的文本框，同时选择完毕后name属性输出到该位置
+        'keys': {
+            id: 'id',
+            name: 'name'
+        }, //绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
+        'type': 1, //数据源类型
+        'data': LAreaData //数据源
+    });
+    $(function(){
+        $('#apply').ajaxForm({
+            success: complete,
+            dataType: 'json'
+        });
+        function complete(data){
+            if(data.code == 1){
+                layer.open({content: data.msg, btn:'确定', yes:function(index){
+                        layer.close(index);
+                        $('#apply')[0].reset();
+                        location.reload();
+                    }
+                });
+            }else{
+                layer.open({content: data.msg, time: 2 });
+                return false;
+            }
+        }
+    });
+</script>
+{/if}

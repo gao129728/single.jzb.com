@@ -1,0 +1,36 @@
+/*灰色系*/
+a:hover, a:active, a:focus {color:#C6C6C6;}
+.area-hd-2 .hd .on a,.area-hd-2 .hd li:hover a{color:#C6C6C6;}
+.area-hd-2 .hd .on span,.area-hd-2 .hd li:hover span{ background:#C6C6C6;}
+
+/*首页图文模式*/
+.pic-txt-panel .detail a{color:#C6C6C6;border:1px solid #C6C6C6;}
+
+/*通用页面底部*/
+.hotline .rig a{color:#C6C6C6;}
+.fixBox li a i.iconfont{color:#C6C6C6;}
+
+/*下级栏目*/
+.sub_menu_1 .scroller li a.on{color:#C6C6C6;border-bottom:3px solid #C6C6C6}
+.sub_menu_2 .scroller li a.on{background:#C6C6C6; border-color:#C6C6C6;}
+.sub_menu_3 .scroller li a.on{color:#C6C6C6;}
+
+/*表单页面*/
+.form-area .sex_box .on{background:#C6C6C6;border-color:#C6C6C6;}
+
+/*会员登录注册*/
+.loginBox .u-subBtn{background: #C6C6C6;}
+.loginBox .toLogin a{color:#C6C6C6;}
+
+.menuNav li:hover a,.menuNav li.on a{border-left-color: #C6C6C6;}
+
+.fixBox1 li.on a .iconfont,.fixBox1 li.on a p,.fixBox1 li:hover a .iconfont,.fixBox1 li:hover a p,.fixBox1 li.center a .iconfont{color:#C6C6C6;}
+
+.fixnav{background: #C6C6C6;}
+
+.menuNav2{background:#C6C6C6;}
+.menuNav2 .scroller li a.on{background:#B0B0B0;}
+
+.more_nav_box li a.on{color:#C6C6C6;}
+.more_nav_box .secondLi>a.on b{background:url(../images/icon_lead5.gif) no-repeat;}
+.more_nav_box .thirdLi>a.on b{background:#C6C6C6;}

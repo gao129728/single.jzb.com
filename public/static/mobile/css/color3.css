@@ -1,0 +1,36 @@
+/*黄色系*/
+a:hover, a:active, a:focus {color:#FFAF2B;}
+.area-hd-2 .hd .on a,.area-hd-2 .hd li:hover a{color:#FFAF2B;}
+.area-hd-2 .hd .on span,.area-hd-2 .hd li:hover span{ background:#FFAF2B;}
+
+/*首页图文模式*/
+.pic-txt-panel .detail a{color:#FFAF2B;border:1px solid #FFAF2B;}
+
+/*通用页面底部*/
+.hotline .rig a{color:#FFAF2B;}
+.fixBox li a i.iconfont{color:#FFAF2B;}
+
+/*下级栏目*/
+.sub_menu_1 .scroller li a.on{color:#FFAF2B;border-bottom:3px solid #FFAF2B}
+.sub_menu_2 .scroller li a.on{background:#FFAF2B; border-color:#FFAF2B;}
+.sub_menu_3 .scroller li a.on{color:#FFAF2B;}
+
+/*表单页面*/
+.form-area .sex_box .on{background:#FFAF2B;border-color:#FFAF2B;}
+
+/*会员登录注册*/
+.loginBox .u-subBtn{background: #FFAF2B;}
+.loginBox .toLogin a{color:#FFAF2B;}
+
+.menuNav li:hover a,.menuNav li.on a{border-left-color: #FFAF2B;}
+
+.fixBox1 li.on a .iconfont,.fixBox1 li.on a p,.fixBox1 li:hover a .iconfont,.fixBox1 li:hover a p,.fixBox1 li.center a .iconfont{color:#FFAF2B;}
+
+.fixnav{background:#FFAF2B;}
+
+.menuNav2{background:#FFAF2B;}
+.menuNav2 .scroller li a.on{background:#FFC058;}
+
+.more_nav_box li a.on{color:#FFAF2B;}
+.more_nav_box .secondLi>a.on b{background:url(../images/icon_lead3.gif) no-repeat;}
+.more_nav_box .thirdLi>a.on b{background:#FFAF2B;}

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+{include file="public/head" /}
+<body>
+<!--头部-->
+{include file="public/header" /}
+<!--主要内容-->
+<div class="MainCon">
+    {if $config.web_site_search eq 1}
+    <div class="search_box">
+        <div class="box-wrap">
+            <div class="fl">
+                <span>热门搜索： </span>
+                {volist name="hot_search" id="vo"}
+                <a href="{if $vo.url neq ''}{$vo.url}{else/}{:url('home/search/index')}?keyword={$vo.title}{/if}" target="_blank">{$vo.title}</a>
+                {/volist}
+            </div>
+            <form class="search_form fr" name="search_form" method="get" action="{:url('home/search/index')}">
+                <input name="keyword" type="text" id="searchkd" placeholder="请输入搜索关键字... ">
+                <i class="iconfont icon-search"></i>
+            </form>
+        </div>
+    </div>
+    {/if}
+    {volist name="structureList" id="structure" key="sl"}
+    <div class="area-content" style="padding:{$structure.topSpace}px 0 {$structure.bottomSpace}px; {if $structure.bgcolor}background-color:{$structure.bgcolor};{/if} {if $structure.photo}background-image:url('__UPLOAD_PATH__/{$structure.photo}');{/if}">
+        <div class="{$structure.show_style? 'screen-wrap':'box-wrap'} clearfix">
+            {volist name="structure['module_list']" id="module" key="ml"}
+            <div class="col-area {$module.float}" id="index-module-{$sl}{$ml}" style="width:{$module.width};">
+                {if $module.titleStyle eq 1}
+                <div class="col-hd-1">
+                    <h3>{$module.sub_title}</h3>
+                    <h2>{$module.title}</h2>
+                    <img src="__IMG__/cir.png"/>
+                </div>
+                {elseif $module.titleStyle eq 2/}
+                <div class="col-hd-2 clearfix">
+                    <h3>{$module.title}</h3>
+                    {if $module.isMore}<p class="m"><a href="{$module.cate_url}" title="{$module.title}">全部</a></p>{/if}
+                </div>
+                {elseif $module.titleStyle eq 3/}
+                <div class="col-hd-3 clearfix">
+                    <ul class="clearfix">
+                        {volist name="module['cate_article_list']" id="tab_cate_name"}
+                        <li>{$tab_cate_name.name}</li>
+                        {/volist}
+                    </ul>
+                    {if $module.isMore}
+                        <p class="m">
+                            {volist name="module['cate_article_list']" id="tab_cate_name"}
+                            <a href="{$tab_cate_name.url}" title="{$tab_cate_name.name}">MORE+</a>
+                            {/volist}
+                        </p>
+                    {/if}
+                </div>
+                {elseif $module.titleStyle eq 4/}
+                <div class="col-hd-4 clearfix">
+                    {if $module.titPic}<h3><img src="__UPLOAD_PATH__/{$module.titPic}"></h3>{/if}
+                </div>
+                {/if}
+                <div class="col-bd">
+                    {switch name="module.module_style"}
+                        {case value="1"}{include file="index-module/module_1" /}{/case}
+                        {case value="2"}{include file="index-module/module_2" /}{/case}
+                        {case value="3"}{include file="index-module/module_3" /}{/case}
+                        {case value="4"}{include file="index-module/module_4" /}{/case}
+                        {case value="5"}{include file="index-module/module_5" /}{/case}
+                        {case value="6"}{include file="index-module/module_6" /}{/case}
+                        {case value="7"}{include file="index-module/module_7" /}{/case}
+                        {default /}模板文件不存在
+                    {/switch}
+                </div>
+            </div>
+                {if $module.titleStyle eq 3/}
+                <script type="text/javascript">
+                    $("#index-module-{$sl}{$ml}").slide({mainCell:".col-hd-3 .m",titCell:".col-hd-3 li",effect:"fold",autoPlay:false,autoPage:false});
+                    $("#index-module-{$sl}{$ml}").slide({mainCell:".col-bd",titCell:".col-hd-3 li",effect:"fold",autoPlay:false,autoPage:false,interTime:2500});
+                </script>
+                {/if}
+            {/volist}
+        </div>
+    </div>
+    {/volist}
+</div>
+{include file="public/footer" /}
+{include file="public/onlineqq" /}
+<script type="text/javascript">
+    $('.search_form .icon-search').click(function(){
+        if($.trim($('#searchkd').val()) == ''){
+            layer.msg('搜索关键词不能为空', {icon: 5,time:2000,shade: 0.5}, function(index){
+                layer.close(index);
+            });
+            $('#searchkd').focus();
+            return false;
+        }
+        $('.search_form')[0].submit();
+    });
+</script>
+</body>
+</html>

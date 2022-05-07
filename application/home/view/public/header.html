@@ -1,0 +1,369 @@
+<div class="header-box">
+	{if $config.web_nav_style lt 4 or $config.web_nav_style eq 7}
+	<div class="headTop headTop-{$config.web_nav_style}">
+	    <div class="box-wrap clearfix">
+	        <p class="fl">欢迎来到{$config.web_site_name}官方网站！</p>
+	        <div class="fr">
+	            {if $config.web_site_member eq 1}
+	                {if $isLogin}
+	                <span class="site-member">
+	                    <i class="iconfont icon-morentouxiang"></i>您好，{$member.account} <a href="javascript:;" onclick="isLoginOut();">退出</a>  |
+	                </span>
+	                {else/}
+	                <a href="{:url('home/member/login')}">登录</a>
+	                {if $config.web_member_reg eq 1}<a href="{:url('home/member/register')}">注册</a>{/if} |
+	                {/if}
+	            {/if}
+	            <a href="{:url('home/sitemap/sitemap')}">网站地图</a>
+	            {if $wap_site_state eq 1}
+	            <a href="{$mobile_domain}" class="mobile">手机版  {if $wap_site_qrcode}<img src="__UPLOAD_PATH__/{$wap_site_qrcode}" width="100">{/if}</a>
+	            {/if}
+	        </div>
+	    </div>
+	</div>
+	{/if}
+	{if $config.web_nav_style eq 1}
+	<div class="header">
+	    <h1 class="logo">
+	        <a href="{:url('home/index/index')}" title="{$config.web_site_name}"><img src="__UPLOAD_PATH__/{$config.web_site_logo}" alt="{$config.web_site_name}"/></a>
+	    </h1>
+	</div>
+	<!--导航-->
+	<div class="MainNav">
+	    <div class="box-wrap">
+	        <ul class="clearfix">
+	            <li style="width:{$nav_width}px;"><a href="{:url('home/index/index')}" title="网站首页" {if $navCur eq 'index'}class="current"{/if}>网站首页</a></li>
+	            {volist name="nav_cate" id="nav"}
+	            <li style="width:{$nav_width}px;"><a href="{$nav.url}" title="{$nav.name}" {if $nav.isTarget eq 1}target="_blank"{/if} {if $navCur eq $nav.id}class="current"{/if}>{$nav.name}</a>
+	                {if $nav.sub and $config.web_subnav eq 1}
+	                <div class="subNav">
+	                    <dl>
+	                        {volist name="nav['sub']" id="vo"}
+	                        <dt><a href="{$vo.url}" title="{$vo.name}" {if $vo.isTarget eq 1}target="_blank"{/if}>{$vo.name}</a></dt>
+	                        {/volist}
+	                    </dl>
+	                </div>
+	                {/if}
+	            </li>
+	            {/volist}
+	        </ul>
+	    </div>
+	</div>
+	<script type="text/javascript">
+	    $(".MainNav li").last().find('a').css('background-image','none');
+	    {if $config.web_subnav eq 1}
+	    Nav();
+	    {/if}
+	</script>
+	{elseif $config.web_nav_style eq 2 /}
+	<div class="MainNav-1">
+	    <div class="box-wrap clearfix">
+	        <h1 class="lef fl">
+	            <a href="{:url('home/index/index')}" title="{$config.web_site_name}"><img src="__UPLOAD_PATH__/{$config.web_site_logo}" alt="{$config.web_site_name}"/></a>
+	        </h1>
+	        <div class="nav-1">
+	            <ul class="clearfix">
+	                <li {if $navCur eq 'index'}class="on"{/if}><a href="{:url('home/index/index')}">网站首页</a></li>
+	                {volist name="nav_cate" id="nav"}
+	                <li {if $navCur eq $nav.id}class="on"{/if}><a href="{$nav.url}" title="{$nav.name}" {if $nav.isTarget eq 1}target="_blank"{/if}>{$nav.name}{if $nav.sub and $config.web_subnav eq 1}<i class="iconfont icon-down"></i>{/if}</a>
+	                    {if $nav.sub and $config.web_subnav eq 1}
+	                    <div class="nav-item">
+	                        <ul>
+	                            {volist name="nav['sub']" id="vo"}
+	                            <li><a href="{$vo.url}" title="{$vo.name}" {if $vo.isTarget eq 1}target="_blank"{/if}><span>{$vo.name}</span><i class="iconfont icon-xiangyoujiantou"></i></a></li>
+	                            {/volist}
+	                        </ul>
+	                    </div>
+	                    {/if}
+	                </li>
+	                {/volist}
+	            </ul>
+	        </div>
+	    </div>
+	</div>
+	{elseif $config.web_nav_style eq 3 /}
+	<div class="mainNav-3">
+		<div class="box-wrap clearfix">
+			<h1 class="lef fl">
+				<a href="{:url('home/index/index')}" title="{$config.web_site_name}"><img src="__UPLOAD_PATH__/{$config.web_site_logo}" alt="{$config.web_site_name}"/></a>
+			</h1>
+			<div class="nav">
+				<ul class="clearfix">
+					<li {if $navCur eq 'index'}class="active"{/if}><a href="{:url('home/index/index')}">网站首页</a></li>
+					{volist name="nav_cate" id="nav"}
+					<li {if $navCur eq $nav.id}class="active"{/if}><a href="{$nav.url}" title="{$nav.name}" {if $nav.isTarget eq 1}target="_blank"{/if}>{$nav.name}{if $nav.sub and $config.web_subnav eq 1}<i class="iconfont icon-down"></i>{/if}</a>
+					{if $nav.sub and $config.web_subnav eq 1}
+					<div class="nav-item">
+						<ul>
+							{volist name="nav['sub']" id="vo"}
+							<li><a href="{$vo.url}" title="{$vo.name}" {if $vo.isTarget eq 1}target="_blank"{/if}><span>{$vo.name}</span></a></li>
+							{/volist}
+						</ul>
+					</div>
+					{/if}
+					</li>
+					{/volist}
+				</ul>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(window).scroll(function(){
+			if($(window).scrollTop()>0){
+				$(".header-box").addClass('header-fix');
+			}else{
+				$(".header-box").removeClass('header-fix');
+			}
+		});
+	</script>
+	{elseif $config.web_nav_style eq 4 /}
+	<div class="mainNav-4">
+		<div class="clearfix">
+			<h1 class="lef fl">
+				<a href="{:url('home/index/index')}" title="{$config.web_site_name}"><img src="__UPLOAD_PATH__/{$config.web_site_logo}" alt="{$config.web_site_name}"/></a>
+			</h1>
+			<div class="rig fr">
+				<div class="searchBox fl">
+					<form class="header_search" name="search_form" method="get" action="{:url('home/search/index')}">
+						<input name="keyword" type="text" id="search_key" class="sear-txt fl" placeholder="搜索">
+						<div class="iconfont icon-search fl"></div>
+					</form>
+				</div>
+				{if $config.web_site_member eq 1}
+				<div class="a-box fl">
+					{if $isLogin}
+					<span class="site-member"><i class="iconfont icon-morentouxiang"></i> 您好，{$member.account} <a href="javascript:;" onclick="isLoginOut();">退出</a></span>
+					{else/}
+					<a href="{:url('home/member/login')}">登录</a><em>|</em>
+					{if $config.web_member_reg eq 1}<a href="{:url('home/member/register')}">注册</a>{/if}
+					{/if}
+				</div>
+				{/if}
+				<div class="menu-btn fl"><i></i></div>
+			</div>
+			<div class="nav">
+				<ul class="clearfix">
+					<li {if $navCur eq 'index'}class="active"{/if}><a href="{:url('home/index/index')}">网站首页</a></li>
+					{volist name="nav_cate" id="nav"}
+					<li {if $navCur eq $nav.id}class="active"{/if}><a href="{$nav.url}" title="{$nav.name}" {if $nav.isTarget eq 1}target="_blank"{/if}>{$nav.name}</a>
+					{if $nav.sub and $config.web_subnav eq 1}
+					<div class="nav-item">
+						<ul>
+							{volist name="nav['sub']" id="vo"}
+							<li><a href="{$vo.url}" title="{$vo.name}" {if $vo.isTarget eq 1}target="_blank"{/if}><span>{$vo.name}</span></a></li>
+							{/volist}
+						</ul>
+					</div>
+					{/if}
+					</li>
+					{/volist}
+				</ul>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(window).scroll(function(){
+			if($(window).scrollTop()>0){
+				$(".header-box").addClass('header-fix');
+			}else{
+				$(".header-box").removeClass('header-fix');
+			}
+		});
+		$('#search_key').blur(function(){
+			if($.trim($(this).val()) == ''){
+				layer.msg('搜索关键词不能为空', {icon: 5,time:2000,shade: 0.5}, function(index){
+					layer.close(index);
+				});
+				return false;
+			}
+			$('.header_search')[0].submit();
+		});
+		$(".menu-btn").click(function(){
+			if(!$(this).hasClass("active")){
+				$(this).addClass('active');
+				$(".mainNav-4 .nav").addClass('nav-show');
+			}else{
+				$(this).removeClass('active');
+				$(".mainNav-4 .nav").removeClass('nav-show');
+			}
+		});
+		$(".mainNav-4 .nav>ul>li").hover(function(){
+			$(this).find(".nav-item").stop().slideDown(500);
+		},function(){
+			$(this).find(".nav-item").stop().slideUp(500);
+		});
+
+		$(function(){
+			var sear=$(".mainNav-4 .searchBox .iconfont");
+			sear.click(function(event){
+				event.stopPropagation();
+				$(".mainNav-4 .sear-txt").addClass("show");
+				return false;
+			})
+			$(document).click(function(event){
+				var _con = $(".mainNav-4 .sear-txt");   // 设置目标区域
+				if(!_con.is(event.target) && _con.has(event.target).length === 0){
+					$(".mainNav-4 .sear-txt").removeClass("show");
+					$(".mainNav-4 .sear-txt").val('');
+				}
+			})
+		})
+	</script>
+    {elseif $config.web_nav_style eq 5 or ($config.web_nav_style eq 6 and $navCur neq 'index') /}
+    <div class="MainNav-5">
+      <div class="clearfix">
+          <h1 class="lef">
+              <a href="{:url('home/index/index')}" title="{$config.web_site_name}"><img src="__UPLOAD_PATH__/{$config.web_site_logo}" alt="{$config.web_site_name}"/></a>
+          </h1>
+          <div class="nav-5">
+              <ul class="clearfix">
+                 <li {if $navCur eq 'index'}class="on"{/if}><a href="{:url('home/index/index')}">网站首页</a></li>
+                {volist name="nav_cate" id="nav"}
+                <li {if $navCur eq $nav.id}class="on"{/if}><a href="{$nav.url}" title="{$nav.name}" {if $nav.isTarget eq 1}target="_blank"{/if}>{$nav.name}{if $nav.sub and $config.web_subnav eq 1}<i class="iconfont icon-down"></i>{/if}</a>
+                  {if $nav.sub and $config.web_subnav eq 1}
+                  <div class="nav-item">
+                    <ul>
+                      {volist name="nav['sub']" id="vo"}
+                      <li><a href="{$vo.url}" title="{$vo.name}" {if $vo.isTarget eq 1}target="_blank"{/if}><span>{$vo.name}</span><i class="iconfont icon-xiangyoujiantou"></i></a></li>
+                      {/volist}
+                    </ul>
+                  </div>
+                  {/if}
+                </li>
+                {/volist}
+              </ul>
+          </div>
+         {if $config.web_site_member eq 1}
+         <div class="login-rig">
+            {if $isLogin}
+            <span class="site-member"><i class="iconfont icon-morentouxiang"></i> 您好，{$member.account} <a href="javascript:;" onclick="isLoginOut();">退出</a></span>
+            {else/}
+            <a href="{:url('home/member/login')}">登录</a><em>|</em>
+            {if $config.web_member_reg eq 1}<a href="{:url('home/member/register')}">注册</a>{/if}
+            {/if}
+         </div>
+          {/if}
+      </div>
+  </div>
+  {elseif $config.web_nav_style eq 6 and $navCur eq 'index' /}
+  <div class="MainNav-6" style="height:{$banner_config.height}px;">
+      <h1 class="lef">
+        <a href="{:url('home/index/index')}" title="{$config.web_site_name}"><img src="__UPLOAD_PATH__/{$config.web_site_logo}" alt="{$config.web_site_name}"/></a>
+      </h1>
+      <div class="nav-6">
+        <ul class="clearfix">
+          <li {if $navCur eq 'index'}class="on"{/if}><a href="{:url('home/index/index')}">网站首页</a></li>
+          {volist name="nav_cate" id="nav"}
+          <li {if $navCur eq $nav.id}class="on"{/if}><a href="{$nav.url}" title="{$nav.name}" {if $nav.isTarget eq 1}target="_blank"{/if}>{$nav.name}</a></li>
+          {/volist}
+        </ul>
+      </div>
+      {if $config.web_site_member eq 1}
+      <div class="login-rig">
+        {if $isLogin}
+        <span class="site-member"><i class="iconfont icon-morentouxiang"></i> 您好，{$member.account} <a href="javascript:;" onclick="isLoginOut();">退出</a></span>
+        {else/}
+        <a href="{:url('home/member/login')}">登录</a><em>|</em>
+        {if $config.web_member_reg eq 1}<a href="{:url('home/member/register')}">注册</a>{/if}
+        {/if}
+      </div>
+      {/if}
+  </div>
+  {elseif $config.web_nav_style eq 7 /}
+  <div class="MainNav-7">
+	    <div class="box-wrap clearfix">
+	        <h1 class="lef fl">
+	            <a href="{:url('home/index/index')}" title="{$config.web_site_name}"><img src="__UPLOAD_PATH__/{$config.web_site_logo}" alt="{$config.web_site_name}"/></a>
+	        </h1>
+	        <div class="nav">
+	            <ul class="clearfix">
+	                <li {if $navCur eq 'index'}class="on"{/if}><a href="{:url('home/index/index')}">网站首页</a></li>
+	                {volist name="nav_cate" id="nav"}
+	                <li class="li {if $navCur eq $nav.id}on{/if}"><a href="{$nav.url}" title="{$nav.name}" {if $nav.isTarget eq 1}target="_blank"{/if}>{$nav.name}</a>
+	                </li>
+	                {/volist}
+	            </ul>
+	        </div>
+	    </div>
+	    {if $config.web_subnav eq 1}
+	    <div class="subNav">
+	    	<div class="box-wrap">
+	    		<ul class="clearfix">
+	                {volist name="nav_cate" id="nav"}
+	                <li>
+	                	<h4><a href="{$nav.url}" title="{$nav.name}" {if $nav.isTarget eq 1}target="_blank"{/if}>{$nav.name}</a></h4>
+                  		{if $nav.sub}
+	                	<dl>
+	                		{volist name="nav['sub']" id="vo"}
+	                        <dt><a href="{$vo.url}" title="{$vo.name}" {if $vo.isTarget eq 1}target="_blank"{/if}>{$vo.name}</a></dt>
+	                        {/volist}
+	                	</dl>
+	                	{/if}
+	                </li>
+	                {/volist}
+	            </ul>
+	    	</div>
+	    </div>
+	    <script type="text/javascript">
+	    var li_cnt = $('.MainNav-7 .subNav li').size();
+	    if(li_cnt > 0){
+	    	$('.MainNav-7 .subNav li').width(1200/li_cnt);
+	    }
+	    Nav_1();
+	    </script>
+	    {/if}
+	</div>
+  {/if}
+</div>
+<script type="text/javascript">
+	function isLoginOut(){
+		layer.confirm('您确定要退出登录吗？',{icon: 3, title:'提示'}, function(index){
+			window.location = "{:url('home/member/loginOut')}";
+			layer.close(index);
+		})
+	}
+	
+	var mheight=$(".MainNav-6 .nav-6").height();
+	$(".MainNav-6 .nav-6").css("margin-top",-mheight/2);
+</script>
+<!--banner-->
+{if $inside_banner}
+<div class="iBanner">
+    <div class="bd" style="width:1920px; margin-left:-960px;"><img src="__UPLOAD_PATH__/{$inside_banner}" width="{$banner_config.width}" height="{$banner_config.height}" alt="{$vo.title}"></div>
+</div>
+{elseif $banner_img /}
+    {if $banner_config.switch eq 1}
+    <div class="HomeBan" style="height:{$banner_config.height}px;">
+        <div class="bd" style="width:{$banner_config.width}px; margin-left:-{$banner_config.width/2}px;">
+            <ul>
+                {volist name="banner_img" id="vo"}
+                <li><a href="{$vo.url? $vo.url:'javascript:;'}" {if $vo.url neq ''}target="_blank"{/if}><img src="__UPLOAD_PATH__/{$vo.photo}" width="{$banner_config.width}" height="{$banner_config.height}" alt="{$vo.title}" /></a></li>
+                {/volist}
+            </ul>
+        </div>
+        {if $banner_config.circle_btn eq 1}
+        <div class="hd"><ul></ul></div>
+        {/if}
+        {if $banner_config.aside_btn eq 1}
+        <a class="prev btn"></a>
+        <a class="next btn"></a>
+        {/if}
+    </div>
+    <script type="text/javascript">
+        $(".HomeBan").hover(function(){
+            $(this).find('.btn').fadeIn(300);
+        }, function(){
+            $(this).find('.btn').fadeOut(300);
+        });
+        $(".HomeBan").slide({titCell:".hd ul", mainCell:".bd ul", autoPage:true,trigger:"click", autoPlay:{$banner_config.auto? 'true':'false'}, effect:"{$banner_config.switch_style}",delayTime:{$banner_config.effect_time}, interTime:{$banner_config.interval_time}});
+    </script>
+    {else/}
+    <div class="iBanner">
+        <div class="bd" style="width:{$banner_config.width}px; margin-left:-{$banner_config.width/2}px;">
+        	<a href="{$banner_img.url? $banner_img.url:'javascript:;'}" {if $banner_img.url neq ''}target="_blank"{/if}>
+        		<img src="__UPLOAD_PATH__/{$banner_img.photo}" width="{$banner_config.width}" height="{$banner_config.height}"  alt="{$vo.title}">
+        	</a>
+        </div>
+    </div>
+    {/if}
+{/if}

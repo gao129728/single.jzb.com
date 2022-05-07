@@ -1,0 +1,28 @@
+{if $lists}
+<div class="picTxt">
+    {volist name="lists" id="item"}
+    <div class="list-item clearfix">
+        <div class="pic" style="width:{$cateParam[5]? $cateParam[3]+2:$cateParam[3]}px; height:{$cateParam[5]? $cateParam[4]+2:$cateParam[4]}px;">
+            {if $item.photo neq ''}
+            <a href="{$item.url}" {if $item.website neq ''}target="_blank"{/if}><img src="__UPLOAD_PATH__/{$item.photo}" width="{$cateParam[3]}" height="{$cateParam[4]}" alt="{$item.title}" {if $cateParam[5]}class="imgBd"{/if} /></a>
+            {else/}
+            <div class="noPic-box">
+                <div class="img"><i class="iconfont icon-tupian"></i><p>暂无图片</p></div>
+            </div>
+            {/if}
+        </div>
+        <div class="txt">
+            <h4><a href="{$item.url}" title="{$item.title}" {if $item.website neq ''}target="_blank"{/if}>{$item.title|leftstr=$cateParam[1]}</a></h4>
+            <div class="info">{$item.content|leftstr_html=$cateParam[2]}</div>
+            <div class="i"><i class="iconfont icon-shijian"></i> 发表时间：{$item.create_time|date="Y-m-d",###} <span><i class="iconfont icon-liulan"></i> 浏览次数： {$item.views}</span></div>
+        </div>
+    </div>
+    {/volist}
+</div>
+<div class="page">{$lists->render()}</div>
+{else/}
+<div class="no-msg-tip">
+    <img src="__IMG__/no-msg-img.png" />
+    <p>暂无信息</p>
+</div>
+{/if}
